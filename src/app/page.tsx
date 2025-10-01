@@ -140,12 +140,12 @@ export default function Home() {
               Your Facebook performance metrics.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
-            {/* Content for Facebook tab */}
+          <CardContent className="flex flex-col items-center justify-center text-center p-8">
+            <p className="text-muted-foreground mb-4">
+              Kaitkan akun Facebook Anda untuk melihat data.
+            </p>
+            <Button variant="destructive">Kaitkan Akun API</Button>
           </CardContent>
-          <CardFooter className="flex-col items-start gap-4">
-            <Button variant="destructive" size="sm">Kaitkan Akun API</Button>
-          </CardFooter>
         </Card>
       </TabsContent>
     </Tabs>
