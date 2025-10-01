@@ -90,9 +90,9 @@ export const AnimatedTabs = ({
       </div>
 
       <div className="overflow-hidden mt-2" ref={emblaRef}>
-        <div className="flex">
+        <div className="flex -ml-2">
           {React.Children.map(children, (child) => (
-            <div className="relative flex-shrink-0 w-full">
+            <div className="relative flex-shrink-0 w-full pl-2">
               {child}
             </div>
           ))}
