@@ -26,8 +26,8 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('font-body antialiased')}>
-        <div className="flex justify-center items-start min-h-screen bg-muted/30 dark:bg-muted/10">
-          <div className="relative w-full max-w-md bg-background flex flex-col h-screen shadow-xl">
+        <div className="flex items-start min-h-screen bg-muted/30 dark:bg-muted/10">
+          <div className="relative w-full bg-background flex flex-col min-h-screen">
             <Header />
             <main className="flex-1 overflow-y-auto pt-20 p-6 pb-20">{children}</main>
             <BottomNav />
