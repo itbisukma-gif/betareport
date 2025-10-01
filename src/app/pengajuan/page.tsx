@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X } from 'lucide-react';
+import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -57,6 +57,9 @@ const StatusBadge = ({ status }: { status: string }) => {
 export default function PengajuanPage() {
   const sortedHistory = [...submissionHistory].sort((a, b) => b.id - a.id);
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [caption, setCaption] = React.useState('');
+  const formCardRef = React.useRef<HTMLDivElement>(null);
+
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -66,16 +69,24 @@ export default function PengajuanPage() {
 
   const clearFile = () => {
     setSelectedFile(null);
-    // Also reset the input field
     const input = document.getElementById('video-file') as HTMLInputElement;
     if (input) {
       input.value = '';
     }
   };
 
+  const handleResubmit = (item: typeof submissionHistory[0]) => {
+    setCaption(item.caption);
+    formCardRef.current?.scrollIntoView({ behavior: 'smooth' });
+    // We don't pre-fill the file, user must select a new one.
+    // We can focus the file input if we want.
+    document.getElementById('video-file-label')?.focus();
+  };
+
+
   return (
     <div className="p-6 space-y-6">
-      <Card>
+      <Card ref={formCardRef}>
         <CardHeader>
           <CardTitle>Ajukan Konten Baru</CardTitle>
           <CardDescription>
@@ -98,7 +109,7 @@ export default function PengajuanPage() {
                   </Button>
                 </div>
               ) : (
-                <Label htmlFor="video-file" className="relative block w-full h-48 border-2 border-dashed rounded-lg text-center flex flex-col justify-center items-center cursor-pointer hover:border-primary hover:bg-muted/50 transition-colors">
+                <Label id="video-file-label" htmlFor="video-file" tabIndex={0} className="relative block w-full h-48 border-2 border-dashed rounded-lg text-center flex flex-col justify-center items-center cursor-pointer hover:border-primary hover:bg-muted/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring transition-colors">
                   <div className="flex flex-col items-center text-muted-foreground">
                     <FileUp className="h-8 w-8 mb-2" />
                     <span className="font-semibold">Seret & lepas file atau klik untuk unggah</span>
@@ -122,7 +133,7 @@ export default function PengajuanPage() {
                   Caption
                 </div>
               </Label>
-              <Textarea id="caption" placeholder="Tulis caption untuk video Anda di sini..." />
+              <Textarea id="caption" placeholder="Tulis caption untuk video Anda di sini..." value={caption} onChange={(e) => setCaption(e.target.value)} />
             </div>
           </form>
         </CardContent>
@@ -163,7 +174,7 @@ export default function PengajuanPage() {
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent className="p-4 pt-0 bg-muted/50 rounded-b-lg">
-                                <div className="space-y-3">
+                                <div className="space-y-4">
                                     <p className="text-sm text-muted-foreground">
                                     <span className="font-medium text-foreground">Caption: </span> "{item.caption}"
                                     </p>
@@ -208,6 +219,13 @@ export default function PengajuanPage() {
                                                 </div>
                                             )}
                                         </div>
+                                    )}
+
+                                    {item.status === 'Ditolak' && (
+                                      <Button variant="secondary" className="w-full" onClick={() => handleResubmit(item)}>
+                                        <RefreshCw className="mr-2 h-4 w-4" />
+                                        Kirim Ulang
+                                      </Button>
                                     )}
                                 </div>
                             </AccordionContent>
