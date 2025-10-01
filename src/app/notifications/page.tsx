@@ -31,7 +31,7 @@ const notifications = [
         title: 'Konten Disetujui',
         message: 'Hai Tim MBG, konten "video_challenge_final.mp4" Anda tanggal 28 September 2024 sudah disetujui. Yuk, upload!',
         date: '1 jam yang lalu',
-        link: '/'
+        link: '/pengajuan'
     },
     {
         id: 4,
