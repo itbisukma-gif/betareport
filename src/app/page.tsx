@@ -23,7 +23,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { getContentGuidelines } from '@/ai/flows/content-guidelines-flow'
+import { getContentGuidelines, type ContentGuidelinesOutput } from '@/ai/flows/content-guidelines-flow'
 
 export default function Home() {
   const tabs = [
@@ -64,27 +64,37 @@ export default function Home() {
 
   const postedToday = dailyPostStatus.filter(p => p.posted && p.connected);
 
-  const [guidelines, setGuidelines] = React.useState({ hygieneStandards: '', contentRules: '' });
-  const [isLoading, setIsLoading] = React.useState(false);
+  const VideoPostDialog = ({children}: {children: React.ReactNode}) => {
+    const [open, setOpen] = React.useState(false);
+    const [guidelines, setGuidelines] = React.useState<ContentGuidelinesOutput | null>(null);
+    const [isLoading, setIsLoading] = React.useState(false);
+    
+    React.useEffect(() => {
+      const handleOpenDialog = async () => {
+        if (guidelines) return; // Don't refetch if we already have the data
+        
+        setIsLoading(true);
+        try {
+          const result = await getContentGuidelines();
+          setGuidelines(result);
+        } catch (error) {
+          console.error("Failed to get content guidelines:", error);
+          setGuidelines({
+            hygieneStandards: 'Gagal memuat standar higienis.',
+            contentRules: 'Gagal memuat peraturan konten.'
+          });
+        } finally {
+          setIsLoading(false);
+        }
+      };
 
-  const handleOpenDialog = async () => {
-    setIsLoading(true);
-    try {
-      const result = await getContentGuidelines();
-      setGuidelines(result);
-    } catch (error) {
-      console.error("Failed to get content guidelines:", error);
-      setGuidelines({
-        hygieneStandards: 'Gagal memuat standar higienis.',
-        contentRules: 'Gagal memuat peraturan konten.'
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      if (open) {
+        handleOpenDialog();
+      }
+    }, [open, guidelines]);
 
-  const VideoPostDialog = ({children}: {children: React.ReactNode}) => (
-      <Dialog onOpenChange={(open) => open && handleOpenDialog()}>
+    return (
+      <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
@@ -115,20 +125,21 @@ export default function Home() {
             <div>
               <h3 className="font-semibold mb-2">Standar Higienis Dapur MBG</h3>
               <p className="text-muted-foreground whitespace-pre-line">
-                {guidelines.hygieneStandards}
+                {guidelines?.hygieneStandards}
               </p>
             </div>
             <div>
               <h3 className="font-semibold mb-2">Peraturan Pengambilan Konten</h3>
               <p className="text-muted-foreground whitespace-pre-line">
-                {guidelines.contentRules}
+                {guidelines?.contentRules}
               </p>
             </div>
           </div>
           )}
         </DialogContent>
       </Dialog>
-  );
+    );
+  };
 
   return (
     <div className="p-6">
@@ -335,3 +346,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
