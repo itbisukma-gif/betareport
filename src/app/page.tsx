@@ -1,4 +1,7 @@
 
+'use client'
+import * as React from 'react'
+
 import {
   Card,
   CardContent,
@@ -12,6 +15,15 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare, Video } from "lucide-react"
 import Image from "next/image"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { getContentGuidelines } from '@/ai/flows/content-guidelines-flow'
 
 export default function Home() {
   const tabs = [
@@ -52,39 +64,103 @@ export default function Home() {
 
   const postedToday = dailyPostStatus.filter(p => p.posted && p.connected);
 
+  const [guidelines, setGuidelines] = React.useState({ hygieneStandards: '', contentRules: '' });
+  const [isLoading, setIsLoading] = React.useState(false);
+
+  const handleOpenDialog = async () => {
+    setIsLoading(true);
+    try {
+      const result = await getContentGuidelines();
+      setGuidelines(result);
+    } catch (error) {
+      console.error("Failed to get content guidelines:", error);
+      setGuidelines({
+        hygieneStandards: 'Gagal memuat standar higienis.',
+        contentRules: 'Gagal memuat peraturan konten.'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const VideoPostDialog = ({children}: {children: React.ReactNode}) => (
+      <Dialog onOpenChange={(open) => open && handleOpenDialog()}>
+        <DialogTrigger asChild>
+          {children}
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle>Panduan Konten Video</DialogTitle>
+            <DialogDescription>
+              Aturan dan standar untuk pembuatan konten di dapur MBG.
+            </DialogDescription>
+          </DialogHeader>
+          {isLoading ? (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <div className="h-4 bg-muted rounded w-1/3 animate-pulse"></div>
+                <div className="h-3 bg-muted rounded w-full animate-pulse"></div>
+                <div className="h-3 bg-muted rounded w-full animate-pulse"></div>
+                <div className="h-3 bg-muted rounded w-2/3 animate-pulse"></div>
+              </div>
+              <div className="space-y-2">
+                <div className="h-4 bg-muted rounded w-1/3 animate-pulse"></div>
+                <div className="h-3 bg-muted rounded w-full animate-pulse"></div>
+                <div className="h-3 bg-muted rounded w-full animate-pulse"></div>
+                <div className="h-3 bg-muted rounded w-2/3 animate-pulse"></div>
+              </div>
+            </div>
+          ) : (
+          <div className="py-4 space-y-4 text-sm">
+            <div>
+              <h3 className="font-semibold mb-2">Standar Higienis Dapur MBG</h3>
+              <p className="text-muted-foreground whitespace-pre-line">
+                {guidelines.hygieneStandards}
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold mb-2">Peraturan Pengambilan Konten</h3>
+              <p className="text-muted-foreground whitespace-pre-line">
+                {guidelines.contentRules}
+              </p>
+            </div>
+          </div>
+          )}
+        </DialogContent>
+      </Dialog>
+  );
+
   return (
-    <div className="p-6 pb-20">
+    <div className="p-6">
       <AnimatedTabs tabs={tabs} initialTab="overview" className="w-full">
         <AnimatedTabsContent value="overview">
           <div className="space-y-6">
-            <div>
+            <div className="space-y-3">
               <h3 className="text-lg font-medium mb-3 px-1">Today's Posts</h3>
-              <div className="space-y-3">
-                {dailyPostStatus.map((platform) => (
-                  <div key={platform.name} className="flex items-center justify-between p-3 rounded-lg bg-card border">
-                    <div className="flex items-center gap-3">
-                      <div className="w-6 h-6">{platform.icon}</div>
-                      <span className="font-medium">{platform.name}</span>
-                    </div>
-                    {!platform.connected ? (
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <XCircle className="h-4 w-4" />
-                          <span>Not Connected</span>
-                        </div>
-                    ) : platform.posted ? (
-                      <div className="flex items-center gap-2 text-sm text-green-600">
-                        <CheckCircle2 className="h-4 w-4" />
-                        <span>Posted today</span>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2 text-sm text-amber-600">
-                        <AlertTriangle className="h-4 w-4" />
-                        <span>No post yet today</span>
-                      </div>
-                    )}
+              {dailyPostStatus.map((platform) => (
+                <div key={platform.name} className="flex items-center justify-between p-3 rounded-lg bg-card border">
+                  <div className="flex items-center gap-3">
+                    <div className="w-6 h-6">{platform.icon}</div>
+                    <span className="font-medium">{platform.name}</span>
                   </div>
-                ))}
-              </div>
+                  {!platform.connected ? (
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <XCircle className="h-4 w-4" />
+                        <span>Not Connected</span>
+                      </div>
+                  ) : platform.posted ? (
+                    <div className="flex items-center gap-2 text-sm text-green-600">
+                      <CheckCircle2 className="h-4 w-4" />
+                      <span>Posted today</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2 text-sm text-amber-600">
+                      <AlertTriangle className="h-4 w-4" />
+                      <span>No post yet today</span>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
 
             {postedToday.length > 0 && (
@@ -175,9 +251,11 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground">Following</p>
                   </div>
               </div>
-              <Button>
-                <Video className="mr-2 h-4 w-4" /> Post Video
-              </Button>
+              <VideoPostDialog>
+                <Button>
+                  <Video className="mr-2 h-4 w-4" /> Post Video
+                </Button>
+              </VideoPostDialog>
             </CardContent>
           </Card>
         </AnimatedTabsContent>
@@ -221,9 +299,11 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground">Following</p>
                   </div>
               </div>
-              <Button>
-                <Video className="mr-2 h-4 w-4" /> Post Video
-              </Button>
+              <VideoPostDialog>
+                <Button>
+                  <Video className="mr-2 h-4 w-4" /> Post Video
+                </Button>
+              </VideoPostDialog>
             </CardContent>
           </Card>
         </AnimatedTabsContent>
