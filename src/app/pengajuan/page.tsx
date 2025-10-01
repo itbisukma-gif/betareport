@@ -9,12 +9,13 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
 // Mock data for submission history
-const submissionHistory = [
+const initialSubmissionHistory = [
   {
     id: 1,
     fileName: 'video_challenge_final.mp4',
@@ -22,6 +23,7 @@ const submissionHistory = [
     status: 'Disetujui',
     revisionNotes: '',
     date: '2 hari yang lalu',
+    screenshotUrl: null,
   },
   {
     id: 2,
@@ -39,6 +41,7 @@ const submissionHistory = [
     status: 'Menunggu Tinjauan',
     revisionNotes: '',
     date: '1 jam yang lalu',
+    screenshotUrl: null,
   },
 ];
 
@@ -55,11 +58,12 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 
 export default function PengajuanPage() {
-  const sortedHistory = [...submissionHistory].sort((a, b) => b.id - a.id);
+  const [historyItems, setHistoryItems] = React.useState(initialSubmissionHistory);
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [caption, setCaption] = React.useState('');
+  const [resubmissionId, setResubmissionId] = React.useState<number | null>(null);
   const formCardRef = React.useRef<HTMLDivElement>(null);
-
+  const { toast } = useToast();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files.length > 0) {
@@ -74,27 +78,87 @@ export default function PengajuanPage() {
       input.value = '';
     }
   };
+  
+  const resetForm = () => {
+    setCaption('');
+    setSelectedFile(null);
+    setResubmissionId(null);
+    clearFile();
+  }
 
-  const handleResubmit = (item: typeof submissionHistory[0]) => {
+  const handleResubmit = (item: typeof historyItems[0]) => {
     setCaption(item.caption);
+    setResubmissionId(item.id);
     formCardRef.current?.scrollIntoView({ behavior: 'smooth' });
-    // We don't pre-fill the file, user must select a new one.
-    // We can focus the file input if we want.
     document.getElementById('video-file-label')?.focus();
   };
+  
+  const handleSubmit = () => {
+    if (!selectedFile || !caption) {
+        toast({
+            variant: 'destructive',
+            title: 'Formulir Belum Lengkap',
+            description: 'Harap unggah file video dan isi caption sebelum mengirim.',
+        });
+        return;
+    }
+
+    if (resubmissionId) {
+        // This is a resubmission
+        setHistoryItems(prev => 
+            prev.map(item => 
+                item.id === resubmissionId 
+                ? {
+                    ...item,
+                    fileName: selectedFile.name,
+                    caption: caption,
+                    status: 'Menunggu Tinjauan',
+                    date: 'Baru saja',
+                    revisionNotes: '', // Clear old revision notes
+                    screenshotUrl: null,
+                  } 
+                : item
+            )
+        );
+        toast({
+            title: 'Berhasil Dikirim Ulang',
+            description: `Konten "${selectedFile.name}" telah dikirim ulang untuk ditinjau.`,
+        });
+    } else {
+        // This is a new submission
+        const newSubmission = {
+            id: Math.max(...historyItems.map(item => item.id)) + 1,
+            fileName: selectedFile.name,
+            caption: caption,
+            status: 'Menunggu Tinjauan',
+            date: 'Baru saja',
+            revisionNotes: '',
+            screenshotUrl: null,
+        };
+        setHistoryItems(prev => [newSubmission, ...prev]);
+        toast({
+            title: 'Pengajuan Terkirim',
+            description: `Konten "${selectedFile.name}" telah berhasil diajukan.`,
+        });
+    }
+
+    resetForm();
+  };
+
+  const sortedHistory = [...historyItems].sort((a, b) => new Date(b.date) as any - (new Date(a.date) as any));
 
 
   return (
     <div className="p-6 space-y-6">
       <Card ref={formCardRef}>
         <CardHeader>
-          <CardTitle>Ajukan Konten Baru</CardTitle>
+          <CardTitle>{resubmissionId ? 'Kirim Ulang Konten' : 'Ajukan Konten Baru'}</CardTitle>
           <CardDescription>
-            Upload video dan caption Anda untuk ditinjau oleh tim.
+            {resubmissionId ? `Anda sedang mengirim ulang konten dengan ID: ${resubmissionId}. Unggah file baru.` : 'Upload video dan caption Anda untuk ditinjau oleh tim.'}
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form className="space-y-4">
+          <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
             <div className="space-y-2">
               <Label htmlFor="video-file" className="sr-only">Upload File Video</Label>
               {selectedFile ? (
@@ -109,7 +173,7 @@ export default function PengajuanPage() {
                   </Button>
                 </div>
               ) : (
-                <Label id="video-file-label" htmlFor="video-file" tabIndex={0} className="relative block w-full h-48 border-2 border-dashed rounded-lg text-center flex flex-col justify-center items-center cursor-pointer hover:border-primary hover:bg-muted/50 focus:border-primary focus:outline-none focus:ring-2 focus:ring-ring transition-colors">
+                <Label id="video-file-label" htmlFor="video-file" tabIndex={0} className="relative block w-full h-48 border-2 border-dashed rounded-lg text-center flex flex-col justify-center items-center cursor-pointer hover:border-primary hover:bg-muted/50 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-ring transition-colors">
                   <div className="flex flex-col items-center text-muted-foreground">
                     <FileUp className="h-8 w-8 mb-2" />
                     <span className="font-semibold">Seret & lepas file atau klik untuk unggah</span>
@@ -138,7 +202,7 @@ export default function PengajuanPage() {
           </form>
         </CardContent>
         <CardFooter>
-          <Button className="w-full">
+          <Button className="w-full" onClick={handleSubmit}>
             <FileUp className="mr-2 h-4 w-4" />
             Kirim Pengajuan
           </Button>
@@ -156,13 +220,13 @@ export default function PengajuanPage() {
           <CardDescription>Lihat status konten yang pernah Anda ajukan.</CardDescription>
         </CardHeader>
         <CardContent>
-            {sortedHistory.length === 0 ? (
+            {historyItems.length === 0 ? (
                 <div className="text-center text-muted-foreground py-8">
                     Belum ada riwayat pengajuan.
                 </div>
             ) : (
                 <Accordion type="single" collapsible className="w-full">
-                    {sortedHistory.map((item) => (
+                    {historyItems.map((item) => (
                         <AccordionItem value={`item-${item.id}`} key={item.id} className="border-b-0">
                              <AccordionTrigger className="p-4 rounded-lg hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50 data-[state=open]:rounded-b-none">
                                 <div className="flex flex-col items-start text-left w-full">
@@ -199,7 +263,7 @@ export default function PengajuanPage() {
                                                                 data-ai-hint="revision screenshot"
                                                             />
                                                         </DialogTrigger>
-                                                        <DialogContent className="p-0 border-0 max-w-4xl">
+                                                        <DialogContent className="p-0 border-0 max-w-4xl bg-background/90 backdrop-blur-sm">
                                                           <DialogHeader className='p-6 pb-0'>
                                                             <DialogTitle>Lampiran Revisi</DialogTitle>
                                                             <DialogDescription>
@@ -238,3 +302,5 @@ export default function PengajuanPage() {
     </div>
   );
 }
+
+    
