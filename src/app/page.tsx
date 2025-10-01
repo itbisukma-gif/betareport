@@ -110,10 +110,9 @@ export default function Home() {
             posted: true,
             post: {
               ...(p.post ?? {}),
-              caption: details.caption || p.post?.caption,
+              caption: details.caption || p.post?.caption || 'Konten berhasil diunggah!',
               thumbnail: details.image || `https://picsum.photos/seed/${Math.random()}/400/600`,
               imageHint: 'social media post',
-              // Keep likes/views/comments as placeholder
               likes: p.post?.likes || "0",
               views: p.post?.views || "0",
               comments: p.post?.comments || "0",
@@ -130,7 +129,7 @@ export default function Home() {
       toast({
         variant: "destructive",
         title: "Gagal Menganalisis URL",
-        description: "Tidak dapat mengambil detail dari URL yang diberikan. Silakan coba lagi.",
+        description: "Tidak dapat mengambil detail dari URL yang diberikan. Status tetap diperbarui.",
       });
       // Even if API fails, mark as posted but with default/existing content
       setDailyPostStatus(prevStatus =>
@@ -529,4 +528,5 @@ export default function Home() {
   );
 }
 
+    
     
