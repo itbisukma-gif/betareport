@@ -2,30 +2,25 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs"
+import { AnimatedTabs } from "@/components/AnimatedTabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Home() {
+  const tabs = [
+    { id: "overview", label: "Overview" },
+    { id: "tiktok", label: "TikTok" },
+    { id: "instagram", label: "Instagram" },
+    { id: "facebook", label: "Facebook" },
+  ];
+
   return (
-    <Tabs defaultValue="overview" className="w-full">
-      <TabsList className="grid w-full grid-cols-4 bg-transparent p-0">
-        <TabsTrigger value="overview" className="rounded-full">Overview</TabsTrigger>
-        <TabsTrigger value="tiktok" className="rounded-full">TikTok</TabsTrigger>
-        <TabsTrigger value="instagram" className="rounded-full">Instagram</TabsTrigger>
-        <TabsTrigger value="facebook" className="rounded-full">Facebook</TabsTrigger>
-      </TabsList>
-      <TabsContent value="overview">
+    <AnimatedTabs tabs={tabs} initialTab="overview" className="w-full">
+      <AnimatedTabs.Content value="overview">
         <Card>
           <CardHeader>
             <CardTitle>Overview</CardTitle>
@@ -37,8 +32,8 @@ export default function Home() {
             {/* Content for Overview tab */}
           </CardContent>
         </Card>
-      </TabsContent>
-      <TabsContent value="tiktok">
+      </AnimatedTabs.Content>
+      <AnimatedTabs.Content value="tiktok">
         <Card>
           <CardHeader>
             <CardTitle>
@@ -80,8 +75,8 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-      </TabsContent>
-      <TabsContent value="instagram">
+      </AnimatedTabs.Content>
+      <AnimatedTabs.Content value="instagram">
         <Card>
           <CardHeader>
             <CardTitle>
@@ -123,8 +118,8 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-      </TabsContent>
-      <TabsContent value="facebook">
+      </AnimatedTabs.Content>
+      <AnimatedTabs.Content value="facebook">
         <Card>
           <CardHeader>
             <CardTitle>
@@ -147,7 +142,7 @@ export default function Home() {
             <Button variant="destructive">Kaitkan Akun API</Button>
           </CardContent>
         </Card>
-      </TabsContent>
-    </Tabs>
+      </AnimatedTabs.Content>
+    </AnimatedTabs>
   );
 }
