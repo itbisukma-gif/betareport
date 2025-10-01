@@ -13,7 +13,7 @@ const notifications = [
         title: 'Akun Belum Tertaut',
         message: 'Akun Facebook Anda belum ditautkan. Segera tautkan untuk dapat memposting konten.',
         date: 'Baru saja',
-        link: '/'
+        link: '/?tab=facebook'
     },
     {
         id: 2,
@@ -22,7 +22,7 @@ const notifications = [
         title: 'Post Harian Belum Lengkap',
         message: 'Anda belum mengupload konten harian untuk Instagram. Jangan lupa untuk posting hari ini.',
         date: '10 menit yang lalu',
-        link: '/'
+        link: '/?tab=instagram'
     },
     {
         id: 3,

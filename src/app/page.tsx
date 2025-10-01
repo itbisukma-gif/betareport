@@ -1,6 +1,7 @@
 
 'use client'
 import * as React from 'react'
+import { useSearchParams } from 'next/navigation'
 
 import {
   Card,
@@ -29,7 +30,10 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
 
-export default function Home() {
+function PageContent() {
+  const searchParams = useSearchParams();
+  const initialTabId = searchParams.get('tab') || "overview";
+
   const tabs = [
     { id: "overview", label: "Overview" },
     { id: "tiktok", label: "TikTok" },
@@ -134,7 +138,14 @@ export default function Home() {
       // Even if API fails, mark as posted but with default/existing content
       setDailyPostStatus(prevStatus =>
         prevStatus.map(p =>
-          p.id === platformId ? { ...p, posted: true } : p
+          p.id === platformId ? { ...p, posted: true, post: p.post || {
+              caption: 'Konten berhasil diunggah!',
+              thumbnail: `https://picsum.photos/seed/${Math.random()}/400/600`,
+              imageHint: 'social media post',
+              likes: "0",
+              views: "0",
+              comments: "0",
+          } } : p
         )
       );
     }
@@ -300,7 +311,7 @@ export default function Home() {
 
   return (
     <div className="p-6">
-      <AnimatedTabs tabs={tabs} initialTab="overview" className="w-full">
+      <AnimatedTabs tabs={tabs} initialTab={initialTabId} className="w-full">
         <AnimatedTabsContent value="overview">
           <div className="space-y-6">
             <div className="space-y-3">
@@ -528,5 +539,13 @@ export default function Home() {
   );
 }
 
+
+export default function Home() {
+  return (
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <PageContent />
+    </React.Suspense>
+  )
+}
     
     
