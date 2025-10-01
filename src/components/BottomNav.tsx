@@ -27,7 +27,8 @@ export function BottomNav() {
               href={item.href} 
               className={cn(
                 "flex flex-col items-center justify-center flex-1 text-center py-2 px-1 rounded-md transition-colors duration-200 ease-in-out",
-                "hover:bg-accent/20 focus-visible:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                "hover:bg-accent/20 focus-visible:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                isActive ? "bg-accent/30" : ""
               )}
             >
               <item.icon
