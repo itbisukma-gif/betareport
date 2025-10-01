@@ -1,6 +1,4 @@
 
-'use server';
-
 import {genkit, ai} from 'genkit';
 import {googleAI} from '@genkit-ai/google-genai';
 
@@ -15,5 +13,4 @@ genkit({
 });
 
 export {ai};
-
     
