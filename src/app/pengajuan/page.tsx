@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { FileUp, Upload, History, MessageSquare, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import Image from 'next/image';
 import * as React from 'react';
 
 // Mock data for submission history
@@ -27,6 +28,7 @@ const submissionHistory = [
     status: 'Ditolak',
     revisionNotes: 'Kualitas video terlalu gelap di beberapa bagian. Coba ambil ulang dengan pencahayaan lebih baik. Hindari merekam area tempat sampah.',
     date: '4 hari yang lalu',
+    screenshotUrl: 'https://picsum.photos/seed/revision/400/225',
   },
   {
     id: 3,
@@ -121,9 +123,24 @@ export default function PengajuanPage() {
                         </p>
 
                         {item.revisionNotes && (
-                            <div className="text-sm text-destructive-foreground bg-destructive/80 p-3 rounded-md">
-                                <p className="font-bold mb-1">Catatan Revisi:</p>
-                                <p>{item.revisionNotes}</p>
+                            <div className="text-sm text-destructive-foreground bg-destructive/80 p-3 rounded-md space-y-2">
+                                <div>
+                                    <p className="font-bold mb-1">Catatan Revisi:</p>
+                                    <p>{item.revisionNotes}</p>
+                                </div>
+                                {item.screenshotUrl && (
+                                    <div>
+                                        <p className="font-bold mb-1">Lampiran:</p>
+                                        <Image
+                                            src={item.screenshotUrl}
+                                            alt="Lampiran Revisi"
+                                            width={400}
+                                            height={225}
+                                            className="rounded-md border-2 border-white/50 w-full h-auto"
+                                            data-ai-hint="revision screenshot"
+                                        />
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
