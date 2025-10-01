@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FileUp, Upload, History, MessageSquare, CheckCircle2, XCircle, Clock, ChevronDown } from 'lucide-react';
+import { FileUp, Upload, History, MessageSquare, CheckCircle2, XCircle, Clock } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -113,7 +113,7 @@ export default function PengajuanPage() {
                 <Accordion type="single" collapsible className="w-full">
                     {submissionHistory.map((item) => (
                         <AccordionItem value={`item-${item.id}`} key={item.id} className="border-b-0">
-                             <AccordionTrigger className="p-4 rounded-lg hover:bg-muted/50 data-[state=open]:bg-muted/50 data-[state=open]:rounded-b-none [&[data-state=open]>svg]:rotate-180">
+                             <AccordionTrigger className="p-4 rounded-lg hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50 data-[state=open]:rounded-b-none">
                                 <div className="flex flex-col items-start text-left w-full">
                                     <div className="flex justify-between items-center w-full">
                                         <span className="font-semibold text-sm break-all pr-4">{item.fileName}</span>
@@ -121,7 +121,6 @@ export default function PengajuanPage() {
                                     </div>
                                     <span className="text-xs text-muted-foreground mt-1">{item.date}</span>
                                 </div>
-                                <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 ml-2" />
                             </AccordionTrigger>
                             <AccordionContent className="p-4 pt-0 bg-muted/50 rounded-b-lg">
                                 <div className="space-y-3">
@@ -181,3 +180,5 @@ export default function PengajuanPage() {
     </div>
   );
 }
+
+    
