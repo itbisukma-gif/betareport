@@ -10,8 +10,8 @@ export function Header() {
     switch (pathname) {
       case '/':
         return '';
-      case '/search':
-        return 'Search';
+      case '/pengajuan':
+        return 'Pengajuan';
       case '/notifications':
         return 'Notifications';
       case '/profile':
