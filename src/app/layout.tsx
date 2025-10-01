@@ -27,9 +27,9 @@ export default function RootLayout({
         />
       </head>
       <body className={cn('font-body antialiased bg-muted/30 dark:bg-muted/10')}>
-        <div className="relative w-full max-w-full sm:max-w-md mx-auto bg-background min-h-screen sm:shadow-xl">
+        <div className="relative w-full max-w-full sm:max-w-md mx-auto bg-background min-h-screen">
           <Header />
-          <main className="p-6 pt-24 pb-20">{children}</main>
+          {children}
           <BottomNav />
         </div>
         <Toaster />
