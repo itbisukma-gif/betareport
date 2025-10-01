@@ -26,13 +26,11 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className={cn('font-body antialiased')}>
-        <div className="flex justify-center items-start min-h-screen bg-muted/30 dark:bg-muted/10">
-          <div className="relative w-full max-w-full sm:max-w-md bg-background flex flex-col min-h-screen sm:shadow-xl">
-            <Header />
-            <main className="flex-1 overflow-y-auto p-6 pb-20">{children}</main>
-            <BottomNav />
-          </div>
+      <body className={cn('font-body antialiased bg-muted/30 dark:bg-muted/10')}>
+        <div className="relative w-full max-w-full sm:max-w-md mx-auto bg-background min-h-screen sm:shadow-xl">
+          <Header />
+          <main className="p-6 pt-24 pb-20">{children}</main>
+          <BottomNav />
         </div>
         <Toaster />
       </body>
