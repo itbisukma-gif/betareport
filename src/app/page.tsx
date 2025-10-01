@@ -24,7 +24,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function Home() {
   const tabs = [
@@ -82,12 +81,18 @@ export default function Home() {
 •   Gunakan penutup kepala (hairnet) dan celemek bersih selama berada di area dapur.
 •   Lepaskan semua perhiasan (cincin, gelang, jam tangan) sebelum memulai pekerjaan.
 •   Jaga kebersihan kuku, pastikan pendek dan tidak menggunakan cat kuku.
-•   Gunakan sarung tangan sekali pakai saat menangani makanan siap saji.`,
+•   Gunakan sarung tangan sekali pakai saat menangani makanan siap saji.
+•   Pastikan area kerja selalu bersih dan kering.
+•   Jangan pernah bekerja saat sakit, terutama jika mengalami gejala flu, diare, atau infeksi kulit.
+•   Laporkan setiap luka atau goresan kepada atasan dan tutup dengan perban tahan air.`,
       contentRules: `•   Fokus pada citra positif: Tunjukkan proses memasak yang bersih, bahan-bahan segar, dan semangat tim.
-•   Dilarang mengganggu staf: Jangan mewawancarai atau mengarahkan staf yang sedang sibuk bekerja.
+•   Dilarang mengganggu staf: Jangan mewawancarai atau mengarahkan staf yang sedang sibuk bekerja di jam sibuk.
 •   Minta izin sebelum merekam wajah: Selalu minta persetujuan lisan sebelum merekam wajah seseorang secara close-up.
 •   Hanya rekam area bersih: Hindari merekam area cuci piring yang kotor, tempat sampah, atau area yang berantakan.
-•   Tidak ada drama: Konten harus profesional dan tidak menciptakan konflik atau gosip.`
+•   Tidak ada drama: Konten harus profesional dan tidak menciptakan konflik atau gosip.
+•   Gunakan pencahayaan yang baik, hindari area yang terlalu gelap atau terlalu terang.
+•   Suara harus jernih, hindari kebisingan latar belakang yang berlebihan.
+•   Durasi video idealnya antara 15-60 detik untuk menjaga perhatian penonton.`
     };
     const [isScrolledToEnd, setIsScrolledToEnd] = React.useState(false);
 
@@ -111,14 +116,14 @@ export default function Home() {
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
-        <DialogContent className="max-h-[80vh] flex flex-col">
+        <DialogContent className="max-h-[80vh] flex flex-col" onScroll={handleScroll}>
           <DialogHeader>
             <DialogTitle>Panduan Konten Video</DialogTitle>
             <DialogDescription>
-              Aturan dan standar untuk pembuatan konten di dapur MBG.
+              Aturan dan standar untuk pembuatan konten di dapur MBG. Baca hingga akhir untuk melanjutkan.
             </DialogDescription>
           </DialogHeader>
-          <ScrollArea className="flex-grow pr-4 -mr-4" onScroll={handleScroll}>
+          <div className="flex-grow overflow-y-auto pr-2">
             <div className="py-4 space-y-4 text-sm">
                 <div>
                   <h3 className="font-semibold mb-2">Standar Higienis Dapur MBG</h3>
@@ -133,9 +138,9 @@ export default function Home() {
                   </p>
                 </div>
             </div>
-          </ScrollArea>
+          </div>
           {isScrolledToEnd && (
-            <DialogFooter className="pt-4 border-t">
+            <DialogFooter className="pt-4 border-t !mt-4">
                 <Button asChild className="w-full">
                 <a href={uploadUrl} target="_blank" rel="noopener noreferrer">
                     <Upload className="mr-2 h-4 w-4" /> Upload ke {appName}
@@ -353,3 +358,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
