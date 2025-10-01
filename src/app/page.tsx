@@ -116,15 +116,15 @@ export default function Home() {
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
-        <DialogContent className="max-h-[80vh] flex flex-col" onScroll={handleScroll}>
+        <DialogContent className="max-h-[80vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Panduan Konten Video</DialogTitle>
             <DialogDescription>
               Aturan dan standar untuk pembuatan konten di dapur MBG. Baca hingga akhir untuk melanjutkan.
             </DialogDescription>
           </DialogHeader>
-          <div className="flex-grow overflow-y-auto pr-2">
-            <div className="py-4 space-y-4 text-sm">
+          <div className="flex-grow overflow-y-auto pr-4 -mr-4" onScroll={handleScroll}>
+            <div className="py-4 space-y-4 text-sm ">
                 <div>
                   <h3 className="font-semibold mb-2">Standar Higienis Dapur MBG</h3>
                   <p className="text-muted-foreground whitespace-pre-line">
@@ -140,7 +140,7 @@ export default function Home() {
             </div>
           </div>
           {isScrolledToEnd && (
-            <DialogFooter className="pt-4 border-t !mt-4">
+            <DialogFooter className="pt-4 border-t mt-0">
                 <Button asChild className="w-full">
                 <a href={uploadUrl} target="_blank" rel="noopener noreferrer">
                     <Upload className="mr-2 h-4 w-4" /> Upload ke {appName}
