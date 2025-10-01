@@ -4,7 +4,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -144,6 +144,12 @@ export default function PengajuanPage() {
                                                 />
                                             </DialogTrigger>
                                             <DialogContent className="p-0 border-0 max-w-4xl">
+                                                <DialogHeader className="sr-only">
+                                                  <DialogTitle>Lampiran Revisi</DialogTitle>
+                                                  <DialogDescription>
+                                                    Tampilan penuh dari gambar lampiran untuk catatan revisi.
+                                                  </DialogDescription>
+                                                </DialogHeader>
                                                 <Image
                                                     src={item.screenshotUrl}
                                                     alt="Lampiran Revisi diperbesar"
