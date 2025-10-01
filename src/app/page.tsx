@@ -56,51 +56,47 @@ export default function Home() {
     <div className="p-6 pb-20">
       <AnimatedTabs tabs={tabs} initialTab="overview" className="w-full">
         <AnimatedTabsContent value="overview">
-          <Card>
-            <CardHeader>
-              <CardTitle>Overview</CardTitle>
-              <CardDescription>
-                Here's an overview of your social media performance.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div>
-                <h3 className="text-lg font-medium mb-3">Today's Posts</h3>
-                <div className="space-y-3">
-                  {dailyPostStatus.map((platform) => (
-                    <div key={platform.name} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
-                      <div className="flex items-center gap-3">
-                        <div className="w-6 h-6">{platform.icon}</div>
-                        <span className="font-medium">{platform.name}</span>
-                      </div>
-                      {!platform.connected ? (
-                         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                           <XCircle className="h-4 w-4" />
-                           <span>Not Connected</span>
-                         </div>
-                      ) : platform.posted ? (
-                        <div className="flex items-center gap-2 text-sm text-green-600">
-                          <CheckCircle2 className="h-4 w-4" />
-                          <span>Posted today</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-2 text-sm text-amber-600">
-                          <AlertTriangle className="h-4 w-4" />
-                          <span>No post yet today</span>
-                        </div>
-                      )}
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-medium mb-3 px-1">Today's Posts</h3>
+              <div className="space-y-3">
+                {dailyPostStatus.map((platform) => (
+                  <div key={platform.name} className="flex items-center justify-between p-3 rounded-lg bg-card border">
+                    <div className="flex items-center gap-3">
+                      <div className="w-6 h-6">{platform.icon}</div>
+                      <span className="font-medium">{platform.name}</span>
                     </div>
-                  ))}
-                </div>
+                    {!platform.connected ? (
+                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                          <XCircle className="h-4 w-4" />
+                          <span>Not Connected</span>
+                        </div>
+                    ) : platform.posted ? (
+                      <div className="flex items-center gap-2 text-sm text-green-600">
+                        <CheckCircle2 className="h-4 w-4" />
+                        <span>Posted today</span>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-2 text-sm text-amber-600">
+                        <AlertTriangle className="h-4 w-4" />
+                        <span>No post yet today</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
+            </div>
 
-              {postedToday.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-medium mb-4">Today's Post Preview</h3>
+            {postedToday.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Today's Post Preview</CardTitle>
+                </CardHeader>
+                <CardContent>
                   <div className="space-y-4">
                     {postedToday.map((platform) => platform.post && (
                       <div key={platform.name} className="bg-muted/50 rounded-lg p-3">
-                         <div className="flex items-start gap-4">
+                          <div className="flex items-start gap-4">
                           <Image 
                             src={platform.post.thumbnail} 
                             alt={`Thumbnail for ${platform.name} post`}
@@ -130,14 +126,14 @@ export default function Home() {
                               </div>
                             </div>
                           </div>
-                         </div>
+                          </div>
                       </div>
                     ))}
                   </div>
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </AnimatedTabsContent>
         <AnimatedTabsContent value="tiktok">
           <Card>
