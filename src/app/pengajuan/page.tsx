@@ -4,6 +4,7 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -131,14 +132,28 @@ export default function PengajuanPage() {
                                 {item.screenshotUrl && (
                                     <div>
                                         <p className="font-bold mb-1">Lampiran:</p>
-                                        <Image
-                                            src={item.screenshotUrl}
-                                            alt="Lampiran Revisi"
-                                            width={400}
-                                            height={225}
-                                            className="rounded-md border-2 border-white/50 w-full h-auto"
-                                            data-ai-hint="revision screenshot"
-                                        />
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                <Image
+                                                    src={item.screenshotUrl}
+                                                    alt="Lampiran Revisi"
+                                                    width={400}
+                                                    height={225}
+                                                    className="rounded-md border-2 border-white/50 w-full h-auto cursor-pointer"
+                                                    data-ai-hint="revision screenshot"
+                                                />
+                                            </DialogTrigger>
+                                            <DialogContent className="p-0 border-0 max-w-4xl">
+                                                <Image
+                                                    src={item.screenshotUrl}
+                                                    alt="Lampiran Revisi diperbesar"
+                                                    width={1200}
+                                                    height={675}
+                                                    className="rounded-lg w-full h-auto"
+                                                    data-ai-hint="revision screenshot"
+                                                />
+                                            </DialogContent>
+                                        </Dialog>
                                     </div>
                                 )}
                             </div>
