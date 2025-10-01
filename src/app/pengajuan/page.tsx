@@ -55,7 +55,7 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 
 export default function PengajuanPage() {
-  const sortedHistory = submissionHistory.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const sortedHistory = [...submissionHistory].sort((a, b) => b.id - a.id);
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -220,3 +220,5 @@ export default function PengajuanPage() {
     </div>
   );
 }
+
+    

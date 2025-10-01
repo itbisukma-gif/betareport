@@ -13,7 +13,7 @@ import { AnimatedTabs, AnimatedTabsContent } from "@/components/AnimatedTabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare, Video, Upload } from "lucide-react"
+import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare, Video, Upload, CalendarDays } from "lucide-react"
 import Image from "next/image"
 import {
   Dialog,
@@ -65,6 +65,16 @@ export default function Home() {
     },
   ];
 
+  const weeklySchedule = [
+    { day: 'Sen', scheduled: true },
+    { day: 'Sel', scheduled: true },
+    { day: 'Rab', scheduled: true },
+    { day: 'Kam', scheduled: true },
+    { day: 'Jum', scheduled: true },
+    { day: 'Sab', scheduled: false },
+    { day: 'Min', scheduled: false },
+  ];
+
   const postedToday = dailyPostStatus.filter(p => p.posted && p.connected);
 
   const VideoPostDialog = ({
@@ -98,13 +108,11 @@ export default function Home() {
 
     const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
       const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
-      // Check if user has scrolled to the bottom (with a small tolerance)
       if (scrollHeight - scrollTop <= clientHeight + 1) {
         setIsScrolledToEnd(true);
       }
     };
     
-    // Reset scroll state when dialog opens/closes
     const onOpenChange = (open: boolean) => {
         if (!open) {
             setIsScrolledToEnd(false);
@@ -185,6 +193,25 @@ export default function Home() {
                 </div>
               ))}
             </div>
+
+            <Card>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-base font-medium flex items-center gap-2">
+                  <CalendarDays className="h-4 w-4" />
+                  Jadwal Upload
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  {weeklySchedule.map((item) => (
+                    <div key={item.day} className="flex-1 text-center">
+                      <p className="text-xs text-muted-foreground mb-2">{item.day}</p>
+                      <Badge variant={item.scheduled ? 'default' : 'secondary'} className="w-full h-2 p-0" />
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
 
             {postedToday.length > 0 && (
               <Card>
