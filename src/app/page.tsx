@@ -13,16 +13,18 @@ import { AnimatedTabs, AnimatedTabsContent } from "@/components/AnimatedTabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare, Video } from "lucide-react"
+import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare, Video, Upload } from "lucide-react"
 import Image from "next/image"
 import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 export default function Home() {
   const tabs = [
@@ -45,25 +47,36 @@ export default function Home() {
         likes: "1.2M",
         views: "15.3M",
         comments: "23.5K"
-      }
+      },
+      uploadUrl: "https://www.tiktok.com/upload"
     },
     { 
       name: "Instagram", 
       posted: false,
       connected: true,
-      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
+      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>,
+      uploadUrl: "https://www.instagram.com"
     },
     { 
       name: "Facebook", 
       posted: false,
       connected: false,
-      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+      icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>,
+      uploadUrl: "https://www.facebook.com/creatorstudio"
     },
   ];
 
   const postedToday = dailyPostStatus.filter(p => p.posted && p.connected);
 
-  const VideoPostDialog = ({children}: {children: React.ReactNode}) => {
+  const VideoPostDialog = ({
+    children,
+    appName,
+    uploadUrl
+  }: {
+    children: React.ReactNode,
+    appName: string,
+    uploadUrl: string
+  }) => {
     const guidelines = {
       hygieneStandards: `•   Selalu cuci tangan dengan sabun dan air mengalir sebelum dan sesudah menangani makanan.
 •   Gunakan penutup kepala (hairnet) dan celemek bersih selama berada di area dapur.
@@ -82,27 +95,36 @@ export default function Home() {
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-md max-h-[80vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Panduan Konten Video</DialogTitle>
             <DialogDescription>
               Aturan dan standar untuk pembuatan konten di dapur MBG.
             </DialogDescription>
           </DialogHeader>
-          <div className="py-4 space-y-4 text-sm">
-            <div>
-              <h3 className="font-semibold mb-2">Standar Higienis Dapur MBG</h3>
-              <p className="text-muted-foreground whitespace-pre-line">
-                {guidelines.hygieneStandards}
-              </p>
+          <ScrollArea className="flex-grow">
+            <div className="py-4 pr-4 space-y-4 text-sm">
+                <div>
+                  <h3 className="font-semibold mb-2">Standar Higienis Dapur MBG</h3>
+                  <p className="text-muted-foreground whitespace-pre-line">
+                    {guidelines.hygieneStandards}
+                  </p>
+                </div>
+                <div>
+                  <h3 className="font-semibold mb-2">Peraturan Pengambilan Konten</h3>
+                  <p className="text-muted-foreground whitespace-pre-line">
+                    {guidelines.contentRules}
+                  </p>
+                </div>
             </div>
-            <div>
-              <h3 className="font-semibold mb-2">Peraturan Pengambilan Konten</h3>
-              <p className="text-muted-foreground whitespace-pre-line">
-                {guidelines.contentRules}
-              </p>
-            </div>
-          </div>
+          </ScrollArea>
+          <DialogFooter className="pt-4 border-t">
+            <Button asChild className="w-full">
+              <a href={uploadUrl} target="_blank" rel="noopener noreferrer">
+                <Upload className="mr-2 h-4 w-4" /> Upload ke {appName}
+              </a>
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     );
@@ -229,7 +251,7 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground">Following</p>
                   </div>
               </div>
-              <VideoPostDialog>
+              <VideoPostDialog appName="TikTok" uploadUrl={dailyPostStatus.find(p => p.name === 'TikTok')?.uploadUrl ?? ''}>
                 <Button>
                   <Video className="mr-2 h-4 w-4" /> Post Video
                 </Button>
@@ -277,7 +299,7 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground">Following</p>
                   </div>
               </div>
-              <VideoPostDialog>
+              <VideoPostDialog appName="Instagram" uploadUrl={dailyPostStatus.find(p => p.name === 'Instagram')?.uploadUrl ?? ''}>
                 <Button>
                   <Video className="mr-2 h-4 w-4" /> Post Video
                 </Button>
@@ -313,7 +335,5 @@ export default function Home() {
     </div>
   );
 }
-
-    
 
     
