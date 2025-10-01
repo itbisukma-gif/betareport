@@ -24,7 +24,7 @@ export function Header() {
   const title = getTitle();
 
   return (
-    <header className="flex items-center justify-between p-4 h-20 bg-background border-b z-10">
+    <header className="sticky top-0 z-50 flex items-center justify-between p-4 h-20 bg-background border-b">
       <div className="flex items-center">
         {pathname === '/' ? (
           <div className="flex items-baseline">
