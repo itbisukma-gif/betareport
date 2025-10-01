@@ -15,11 +15,11 @@ import {
 export default function Home() {
   return (
     <Tabs defaultValue="overview" className="w-full">
-      <TabsList className="grid w-full grid-cols-4">
-        <TabsTrigger value="overview">Overview</TabsTrigger>
-        <TabsTrigger value="tiktok">TikTok</TabsTrigger>
-        <TabsTrigger value="instagram">Instagram</TabsTrigger>
-        <TabsTrigger value="facebook">Facebook</TabsTrigger>
+      <TabsList className="grid w-full grid-cols-4 bg-transparent p-0">
+        <TabsTrigger value="overview" className="rounded-full">Overview</TabsTrigger>
+        <TabsTrigger value="tiktok" className="rounded-full">TikTok</TabsTrigger>
+        <TabsTrigger value="instagram" className="rounded-full">Instagram</TabsTrigger>
+        <TabsTrigger value="facebook" className="rounded-full">Facebook</TabsTrigger>
       </TabsList>
       <TabsContent value="overview">
         <Card>
