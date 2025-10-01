@@ -29,7 +29,7 @@ export function BottomNav() {
             >
               <div
                 className={cn(
-                  'flex flex-col items-center justify-center gap-1 w-16 py-1 rounded-full transition-colors',
+                  'flex items-center justify-center h-8 w-12 rounded-full transition-colors',
                   isActive ? 'bg-accent/30' : 'hover:bg-accent/20'
                 )}
               >
@@ -40,15 +40,15 @@ export function BottomNav() {
                   )}
                   aria-hidden="true"
                 />
-                <span
-                  className={cn(
-                    'text-xs font-medium transition-colors',
-                     isActive ? 'text-accent-dark' : 'text-muted-foreground'
-                  )}
-                >
-                  {item.label}
-                </span>
               </div>
+              <span
+                className={cn(
+                  'text-xs font-medium transition-colors mt-1',
+                   isActive ? 'text-accent-dark' : 'text-muted-foreground'
+                )}
+              >
+                {item.label}
+              </span>
               <span className="sr-only">{isActive ? `(Current Page)` : ''}</span>
             </Link>
           );
