@@ -89,21 +89,37 @@ export default function Home() {
 •   Hanya rekam area bersih: Hindari merekam area cuci piring yang kotor, tempat sampah, atau area yang berantakan.
 •   Tidak ada drama: Konten harus profesional dan tidak menciptakan konflik atau gosip.`
     };
+    const [isScrolledToEnd, setIsScrolledToEnd] = React.useState(false);
+
+    const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
+      const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+      // Check if user has scrolled to the bottom (with a small tolerance)
+      if (scrollHeight - scrollTop <= clientHeight + 1) {
+        setIsScrolledToEnd(true);
+      }
+    };
+    
+    // Reset scroll state when dialog opens/closes
+    const onOpenChange = (open: boolean) => {
+        if (!open) {
+            setIsScrolledToEnd(false);
+        }
+    }
 
     return (
-      <Dialog>
+      <Dialog onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-md max-h-[80vh] flex flex-col">
+        <DialogContent className="max-h-[80vh] flex flex-col">
           <DialogHeader>
             <DialogTitle>Panduan Konten Video</DialogTitle>
             <DialogDescription>
               Aturan dan standar untuk pembuatan konten di dapur MBG.
             </DialogDescription>
           </DialogHeader>
-          <ScrollArea className="flex-grow">
-            <div className="py-4 pr-4 space-y-4 text-sm">
+          <ScrollArea className="flex-grow pr-4 -mr-4" onScroll={handleScroll}>
+            <div className="py-4 space-y-4 text-sm">
                 <div>
                   <h3 className="font-semibold mb-2">Standar Higienis Dapur MBG</h3>
                   <p className="text-muted-foreground whitespace-pre-line">
@@ -118,13 +134,15 @@ export default function Home() {
                 </div>
             </div>
           </ScrollArea>
-          <DialogFooter className="pt-4 border-t">
-            <Button asChild className="w-full">
-              <a href={uploadUrl} target="_blank" rel="noopener noreferrer">
-                <Upload className="mr-2 h-4 w-4" /> Upload ke {appName}
-              </a>
-            </Button>
-          </DialogFooter>
+          {isScrolledToEnd && (
+            <DialogFooter className="pt-4 border-t">
+                <Button asChild className="w-full">
+                <a href={uploadUrl} target="_blank" rel="noopener noreferrer">
+                    <Upload className="mr-2 h-4 w-4" /> Upload ke {appName}
+                </a>
+                </Button>
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
     );
@@ -335,5 +353,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
