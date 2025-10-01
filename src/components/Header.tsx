@@ -1,5 +1,7 @@
 'use client';
 import { usePathname } from 'next/navigation';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { User } from 'lucide-react';
 
 export function Header() {
   const pathname = usePathname();
@@ -22,14 +24,21 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-md flex items-center justify-between p-4 border-b bg-background/95 backdrop-blur-sm z-10">
-      {pathname === '/' ? (
-        <div className="flex items-baseline">
-          <span className="text-xl font-bold">BETA</span>
-          <span className="text-base font-light">report</span>
-        </div>
-      ) : (
-        <h1 className="text-xl font-bold font-headline">{title}</h1>
-      )}
+      <div className="flex items-center">
+        {pathname === '/' ? (
+          <div className="flex items-baseline">
+            <span className="text-xl font-bold">BETA</span>
+            <span className="text-base font-light">report</span>
+          </div>
+        ) : (
+          <h1 className="text-xl font-bold font-headline">{title}</h1>
+        )}
+      </div>
+      <Avatar className="h-8 w-8">
+        <AvatarFallback>
+          <User className="h-5 w-5 text-muted-foreground" />
+        </AvatarFallback>
+      </Avatar>
     </header>
   );
 }
