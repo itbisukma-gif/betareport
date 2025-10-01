@@ -55,6 +55,8 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 
 export default function PengajuanPage() {
+  const sortedHistory = submissionHistory.sort((a, b) => b.id - a.id);
+
   return (
     <div className="p-6 space-y-6">
       <Card>
@@ -105,13 +107,13 @@ export default function PengajuanPage() {
           <CardDescription>Lihat status konten yang pernah Anda ajukan.</CardDescription>
         </CardHeader>
         <CardContent>
-            {submissionHistory.length === 0 ? (
+            {sortedHistory.length === 0 ? (
                 <div className="text-center text-muted-foreground py-8">
                     Belum ada riwayat pengajuan.
                 </div>
             ) : (
                 <Accordion type="single" collapsible className="w-full">
-                    {submissionHistory.map((item) => (
+                    {sortedHistory.map((item) => (
                         <AccordionItem value={`item-${item.id}`} key={item.id} className="border-b-0">
                              <AccordionTrigger className="p-4 rounded-lg hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50 data-[state=open]:rounded-b-none">
                                 <div className="flex flex-col items-start text-left w-full">
@@ -180,5 +182,3 @@ export default function PengajuanPage() {
     </div>
   );
 }
-
-    
