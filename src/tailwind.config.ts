@@ -101,7 +101,7 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'stretch-once': 'stretch-once 0.3s ease-out forwards',
+        'stretch-once': 'stretch-once 0.3s cubic-bezier(0.4, 0, 0.6, 1) forwards',
         'pulse-once': 'pulse-once 0.3s ease-in-out forwards',
       },
     },
