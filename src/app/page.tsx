@@ -10,7 +10,7 @@ import { AnimatedTabs, AnimatedTabsContent } from "@/components/AnimatedTabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare } from "lucide-react"
+import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare, Video } from "lucide-react"
 import Image from "next/image"
 
 export default function Home() {
@@ -178,6 +178,9 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground">Following</p>
                 </div>
             </div>
+            <Button>
+              <Video className="mr-2 h-4 w-4" /> Post Video
+            </Button>
           </CardContent>
         </Card>
       </AnimatedTabsContent>
@@ -221,6 +224,9 @@ export default function Home() {
                     <p className="text-sm text-muted-foreground">Following</p>
                 </div>
             </div>
+            <Button>
+              <Video className="mr-2 h-4 w-4" /> Post Video
+            </Button>
           </CardContent>
         </Card>
       </AnimatedTabsContent>
