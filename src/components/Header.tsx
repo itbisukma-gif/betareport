@@ -19,7 +19,7 @@ export function Header() {
   };
 
   return (
-    <header className="flex items-center justify-between p-4 border-b">
+    <header className="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-md flex items-center justify-between p-4 border-b bg-background/95 backdrop-blur-sm z-10">
       <h1 className="text-xl font-bold font-headline">{getTitle()}</h1>
     </header>
   );
