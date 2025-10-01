@@ -6,7 +6,7 @@ export function Header() {
   const getTitle = () => {
     switch (pathname) {
       case '/':
-        return 'Home';
+        return '';
       case '/search':
         return 'Search';
       case '/notifications':
@@ -14,7 +14,7 @@ export function Header() {
       case '/profile':
         return 'Profile';
       default:
-        return 'Home';
+        return '';
     }
   };
 
