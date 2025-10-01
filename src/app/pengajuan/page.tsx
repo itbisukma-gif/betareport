@@ -1,6 +1,7 @@
 
 'use client';
 
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FileUp, Upload, History, MessageSquare, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import { FileUp, Upload, History, MessageSquare, CheckCircle2, XCircle, Clock, ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -103,69 +104,77 @@ export default function PengajuanPage() {
             </CardTitle>
           <CardDescription>Lihat status konten yang pernah Anda ajukan.</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent>
             {submissionHistory.length === 0 ? (
                 <div className="text-center text-muted-foreground py-8">
                     Belum ada riwayat pengajuan.
                 </div>
             ) : (
-                submissionHistory.map((item) => (
-                    <div key={item.id} className="border p-4 rounded-lg space-y-3 bg-muted/20">
-                        <div>
-                            <div className="flex justify-between items-start">
-                                <span className="font-semibold text-sm break-all">{item.fileName}</span>
-                                <StatusBadge status={item.status} />
-                            </div>
-                            <span className="text-xs text-muted-foreground">{item.date}</span>
-                        </div>
-                        
-                        <p className="text-sm text-muted-foreground line-clamp-2">
-                           <span className="font-medium text-foreground">Caption: </span> "{item.caption}"
-                        </p>
-
-                        {item.revisionNotes && (
-                            <div className="text-sm text-destructive-foreground bg-destructive/80 p-3 rounded-md space-y-2">
-                                <div>
-                                    <p className="font-bold mb-1">Catatan Revisi:</p>
-                                    <p>{item.revisionNotes}</p>
-                                </div>
-                                {item.screenshotUrl && (
-                                    <div>
-                                        <p className="font-bold mb-1">Lampiran:</p>
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <Image
-                                                    src={item.screenshotUrl}
-                                                    alt="Lampiran Revisi"
-                                                    width={400}
-                                                    height={225}
-                                                    className="rounded-md border-2 border-white/50 w-full h-auto cursor-pointer"
-                                                    data-ai-hint="revision screenshot"
-                                                />
-                                            </DialogTrigger>
-                                            <DialogContent className="p-0 border-0 max-w-4xl">
-                                                <DialogHeader className="sr-only">
-                                                  <DialogTitle>Lampiran Revisi</DialogTitle>
-                                                  <DialogDescription>
-                                                    Tampilan penuh dari gambar lampiran untuk catatan revisi.
-                                                  </DialogDescription>
-                                                </DialogHeader>
-                                                <Image
-                                                    src={item.screenshotUrl}
-                                                    alt="Lampiran Revisi diperbesar"
-                                                    width={1200}
-                                                    height={675}
-                                                    className="rounded-lg w-full h-auto"
-                                                    data-ai-hint="revision screenshot"
-                                                />
-                                            </DialogContent>
-                                        </Dialog>
+                <Accordion type="single" collapsible className="w-full">
+                    {submissionHistory.map((item) => (
+                        <AccordionItem value={`item-${item.id}`} key={item.id} className="border-b-0">
+                             <AccordionTrigger className="p-4 rounded-lg hover:bg-muted/50 data-[state=open]:bg-muted/50 data-[state=open]:rounded-b-none [&[data-state=open]>svg]:rotate-180">
+                                <div className="flex flex-col items-start text-left w-full">
+                                    <div className="flex justify-between items-center w-full">
+                                        <span className="font-semibold text-sm break-all pr-4">{item.fileName}</span>
+                                        <StatusBadge status={item.status} />
                                     </div>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                ))
+                                    <span className="text-xs text-muted-foreground mt-1">{item.date}</span>
+                                </div>
+                                <ChevronDown className="h-4 w-4 shrink-0 transition-transform duration-200 ml-2" />
+                            </AccordionTrigger>
+                            <AccordionContent className="p-4 pt-0 bg-muted/50 rounded-b-lg">
+                                <div className="space-y-3">
+                                    <p className="text-sm text-muted-foreground">
+                                    <span className="font-medium text-foreground">Caption: </span> "{item.caption}"
+                                    </p>
+
+                                    {item.revisionNotes && (
+                                        <div className="text-sm text-destructive-foreground bg-destructive/80 p-3 rounded-md space-y-2">
+                                            <div>
+                                                <p className="font-bold mb-1">Catatan Revisi:</p>
+                                                <p>{item.revisionNotes}</p>
+                                            </div>
+                                            {item.screenshotUrl && (
+                                                <div>
+                                                    <p className="font-bold mb-1">Lampiran:</p>
+                                                    <Dialog>
+                                                        <DialogTrigger asChild>
+                                                            <Image
+                                                                src={item.screenshotUrl}
+                                                                alt="Lampiran Revisi"
+                                                                width={400}
+                                                                height={225}
+                                                                className="rounded-md border-2 border-white/50 w-full h-auto cursor-pointer"
+                                                                data-ai-hint="revision screenshot"
+                                                            />
+                                                        </DialogTrigger>
+                                                        <DialogContent className="p-0 border-0 max-w-4xl">
+                                                          <DialogHeader className='p-6 pb-0'>
+                                                            <DialogTitle>Lampiran Revisi</DialogTitle>
+                                                            <DialogDescription>
+                                                              Tampilan penuh dari gambar lampiran untuk catatan revisi.
+                                                            </DialogDescription>
+                                                          </DialogHeader>
+                                                            <Image
+                                                                src={item.screenshotUrl}
+                                                                alt="Lampiran Revisi diperbesar"
+                                                                width={1200}
+                                                                height={675}
+                                                                className="rounded-b-lg w-full h-auto"
+                                                                data-ai-hint="revision screenshot"
+                                                            />
+                                                        </DialogContent>
+                                                    </Dialog>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            </AccordionContent>
+                        </AccordionItem>
+                    ))}
+                </Accordion>
             )}
         </CardContent>
       </Card>
