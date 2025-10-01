@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { AnimatedTabs } from "@/components/AnimatedTabs"
+import { AnimatedTabs, AnimatedTabsContent } from "@/components/AnimatedTabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -20,7 +20,7 @@ export default function Home() {
 
   return (
     <AnimatedTabs tabs={tabs} initialTab="overview" className="w-full">
-      <AnimatedTabs.Content value="overview">
+      <AnimatedTabsContent value="overview">
         <Card>
           <CardHeader>
             <CardTitle>Overview</CardTitle>
@@ -32,8 +32,8 @@ export default function Home() {
             {/* Content for Overview tab */}
           </CardContent>
         </Card>
-      </AnimatedTabs.Content>
-      <AnimatedTabs.Content value="tiktok">
+      </AnimatedTabsContent>
+      <AnimatedTabsContent value="tiktok">
         <Card>
           <CardHeader>
             <CardTitle>
@@ -75,8 +75,8 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-      </AnimatedTabs.Content>
-      <AnimatedTabs.Content value="instagram">
+      </AnimatedTabsContent>
+      <AnimatedTabsContent value="instagram">
         <Card>
           <CardHeader>
             <CardTitle>
@@ -118,8 +118,8 @@ export default function Home() {
             </div>
           </CardContent>
         </Card>
-      </AnimatedTabs.Content>
-      <AnimatedTabs.Content value="facebook">
+      </AnimatedTabsContent>
+      <AnimatedTabsContent value="facebook">
         <Card>
           <CardHeader>
             <CardTitle>
@@ -142,7 +142,7 @@ export default function Home() {
             <Button variant="destructive">Kaitkan Akun API</Button>
           </CardContent>
         </Card>
-      </AnimatedTabs.Content>
+      </AnimatedTabsContent>
     </AnimatedTabs>
   );
 }

@@ -20,26 +20,17 @@ type AnimatedTabsProps = {
 
 type AnimatedTabsContextType = {
   activeTab: string;
-  setActiveTab: (id: string) => void;
 };
 
 const AnimatedTabsContext = React.createContext<AnimatedTabsContextType | null>(null);
 
-const useAnimatedTabs = () => {
-  const context = React.useContext(AnimatedTabsContext);
-  if (!context) {
-    throw new Error('useAnimatedTabs must be used within an AnimatedTabs provider');
-  }
-  return context;
-};
-
-function AnimatedTabs({
+export const AnimatedTabs = ({
   tabs,
   initialTab,
   onTabChange,
   children,
   className,
-}: AnimatedTabsProps) {
+}: AnimatedTabsProps) => {
   const [activeTab, setActiveTab] = React.useState(initialTab || tabs[0].id);
 
   const handleSetTab = (id: string) => {
@@ -55,7 +46,7 @@ function AnimatedTabs({
   }, [children, activeTab]);
 
   return (
-    <AnimatedTabsContext.Provider value={{ activeTab, setActiveTab: handleSetTab }}>
+    <AnimatedTabsContext.Provider value={{ activeTab }}>
       <div className={className}>
         <div className="relative grid grid-cols-4 bg-transparent p-0">
           {tabs.map((tab) => (
@@ -93,18 +84,18 @@ function AnimatedTabs({
       </div>
     </AnimatedTabsContext.Provider>
   );
-}
+};
 
-const AnimatedTabsContent = ({
+export const AnimatedTabsContent = ({
   value,
   children,
 }: {
   value: string;
   children: React.ReactNode;
 }) => {
-  return <div data-value={value}>{children}</div>;
+  // This component doesn't render anything itself.
+  // It's just a data container for the AnimatedTabs component.
+  return <>{children}</>;
 };
 
 AnimatedTabs.Content = AnimatedTabsContent;
-
-export { AnimatedTabs };
