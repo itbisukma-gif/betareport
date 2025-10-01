@@ -45,11 +45,11 @@ const submissionHistory = [
 const StatusBadge = ({ status }: { status: string }) => {
   switch (status) {
     case 'Disetujui':
-      return <Badge variant="default" className="bg-green-600 hover:bg-green-700"><CheckCircle2 className="mr-1 h-3 w-3" />{status}</Badge>;
+      return <Badge variant="default" className="bg-green-600 hover:bg-green-700 font-normal"><CheckCircle2 className="mr-1 h-3 w-3" />{status}</Badge>;
     case 'Ditolak':
-      return <Badge variant="destructive"><XCircle className="mr-1 h-3 w-3" />{status}</Badge>;
+      return <Badge variant="destructive" className="font-normal"><XCircle className="mr-1 h-3 w-3" />{status}</Badge>;
     default:
-      return <Badge variant="secondary"><Clock className="mr-1 h-3 w-3" />{status}</Badge>;
+      return <Badge variant="secondary" className="font-normal"><Clock className="mr-1 h-3 w-3" />{status}</Badge>;
   }
 };
 
@@ -220,5 +220,3 @@ export default function PengajuanPage() {
     </div>
   );
 }
-
-    
