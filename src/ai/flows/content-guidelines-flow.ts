@@ -16,10 +16,6 @@ const ContentGuidelinesOutputSchema = z.object({
 });
 export type ContentGuidelinesOutput = z.infer<typeof ContentGuidelinesOutputSchema>;
 
-export async function getContentGuidelines(): Promise<ContentGuidelinesOutput> {
-    return contentGuidelinesFlow();
-}
-
 const prompt = ai.definePrompt({
   name: 'contentGuidelinesPrompt',
   output: { schema: ContentGuidelinesOutputSchema },
@@ -34,13 +30,10 @@ Please provide the output in two distinct sections based on the output schema.
 `,
 });
 
-const contentGuidelinesFlow = ai.defineFlow(
-  {
-    name: 'contentGuidelinesFlow',
-    outputSchema: ContentGuidelinesOutputSchema,
-  },
-  async () => {
+export async function getContentGuidelines(): Promise<ContentGuidelinesOutput> {
     const { output } = await prompt();
-    return output!;
-  }
-);
+    if (!output) {
+        throw new Error("Failed to generate content guidelines.");
+    }
+    return output;
+}
