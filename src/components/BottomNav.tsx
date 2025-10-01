@@ -22,25 +22,28 @@ export function BottomNav() {
         {navItems.map((item) => {
           const isActive = item.href === '/' ? pathname === item.href : pathname.startsWith(item.href);
           return (
-            <Link 
-              key={item.href} 
-              href={item.href} 
-              className={cn(
-                "flex flex-col items-center justify-center flex-1 text-center py-2 px-1 rounded-md transition-colors duration-200 ease-in-out",
-                "hover:bg-accent/20 focus-visible:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                isActive ? "bg-accent/30" : ""
-              )}
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex flex-col items-center justify-center flex-1 text-center py-2 px-1 transition-colors duration-200 ease-in-out rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
-              <item.icon
+              <div
                 className={cn(
-                  'h-5 w-5 mb-1 transition-colors',
-                  isActive ? 'text-accent-dark' : 'text-muted-foreground'
+                  'p-2 rounded-full transition-colors',
+                  isActive ? 'bg-accent/30' : 'hover:bg-accent/20'
                 )}
-                aria-hidden="true"
-              />
+              >
+                <item.icon
+                  className={cn(
+                    'h-5 w-5 transition-colors',
+                    isActive ? 'text-accent-dark' : 'text-muted-foreground'
+                  )}
+                  aria-hidden="true"
+                />
+              </div>
               <span
                 className={cn(
-                  'text-xs font-medium transition-colors',
+                  'text-xs font-medium transition-colors mt-1',
                   isActive ? 'text-accent-dark' : 'text-muted-foreground'
                 )}
               >
