@@ -30,7 +30,7 @@ export function BottomNav() {
               <div
                 className={cn(
                   'flex items-center justify-center h-8 w-12 rounded-full transition-colors',
-                  isActive ? 'bg-accent/30' : 'hover:bg-accent/20'
+                  isActive ? 'bg-accent/30 animate-pulse-smooth' : 'hover:bg-accent/20'
                 )}
               >
                 <item.icon
