@@ -313,20 +313,20 @@ export default function Home() {
                     <span className="font-medium">{platform.name}</span>
                   </div>
                   {!platform.connected ? (
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <XCircle className="h-4 w-4" />
-                        <span>Not Connected</span>
-                      </div>
+                      <Badge variant="secondary" className="font-normal">
+                        <XCircle className="mr-1 h-3 w-3" />
+                        Not Connected
+                      </Badge>
                   ) : platform.posted ? (
-                    <div className="flex items-center gap-2 text-sm text-green-600">
-                      <CheckCircle2 className="h-4 w-4" />
-                      <span>Posted today</span>
-                    </div>
+                    <Badge className="bg-green-600 hover:bg-green-700 font-normal">
+                      <CheckCircle2 className="mr-1 h-3 w-3" />
+                      Posted
+                    </Badge>
                   ) : (
-                    <div className="flex items-center gap-2 text-sm text-amber-600">
-                      <AlertTriangle className="h-4 w-4" />
-                      <span>No post yet today</span>
-                    </div>
+                    <Badge variant="destructive" className="bg-amber-600 hover:bg-amber-700 font-normal">
+                      <AlertTriangle className="mr-1 h-3 w-3" />
+                      Not Posted
+                    </Badge>
                   )}
                 </div>
               ))}
