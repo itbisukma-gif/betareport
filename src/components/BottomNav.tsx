@@ -25,11 +25,11 @@ export function BottomNav() {
             <Link
               key={item.href}
               href={item.href}
-              className="flex flex-col items-center justify-center flex-1 text-center py-2 px-1 transition-colors duration-200 ease-in-out rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="flex items-center justify-center flex-1 text-center py-2 px-1 transition-colors duration-200 ease-in-out rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             >
               <div
                 className={cn(
-                  'p-2 rounded-full transition-colors',
+                  'flex items-center justify-center gap-2 px-4 py-2 rounded-full transition-colors',
                   isActive ? 'bg-accent/30' : 'hover:bg-accent/20'
                 )}
               >
@@ -40,15 +40,15 @@ export function BottomNav() {
                   )}
                   aria-hidden="true"
                 />
+                <span
+                  className={cn(
+                    'text-sm font-medium transition-colors',
+                    isActive ? 'text-accent-dark' : 'text-muted-foreground'
+                  )}
+                >
+                  {item.label}
+                </span>
               </div>
-              <span
-                className={cn(
-                  'text-xs font-medium transition-colors mt-1',
-                  isActive ? 'text-accent-dark' : 'text-muted-foreground'
-                )}
-              >
-                {item.label}
-              </span>
               <span className="sr-only">{isActive ? `(Current Page)` : ''}</span>
             </Link>
           );
