@@ -55,15 +55,18 @@ export default function Home() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50">
-                <Avatar className="h-12 w-12">
-                    <AvatarImage src="https://picsum.photos/seed/1/100" data-ai-hint="user avatar" />
-                    <AvatarFallback>TT</AvatarFallback>
-                </Avatar>
-                <div>
-                    <p className="font-semibold">@tiktokexpert</p>
-                    <p className="text-sm text-muted-foreground">Your official TikTok account.</p>
+            <div className="flex items-center justify-between gap-4 p-4 rounded-lg bg-muted/50">
+                <div className="flex items-center gap-4">
+                    <Avatar className="h-12 w-12">
+                        <AvatarImage src="https://picsum.photos/seed/1/100" data-ai-hint="user avatar" />
+                        <AvatarFallback>TT</AvatarFallback>
+                    </Avatar>
+                    <div>
+                        <p className="font-semibold">@tiktokexpert</p>
+                        <p className="text-sm text-muted-foreground">Your official TikTok account.</p>
+                    </div>
                 </div>
+                <Button variant="outline" size="sm">Lihat Akun</Button>
             </div>
             <div className="grid grid-cols-2 gap-4 text-center">
                 <div>
@@ -95,15 +98,18 @@ export default function Home() {
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50">
-                <Avatar className="h-12 w-12">
-                    <AvatarImage src="https://picsum.photos/seed/2/100" data-ai-hint="user avatar" />
-                    <AvatarFallback>IG</AvatarFallback>
-                </Avatar>
-                <div>
-                    <p className="font-semibold">@insta_guru</p>
-                    <p className="text-sm text-muted-foreground">Your official Instagram account.</p>
+            <div className="flex items-center justify-between gap-4 p-4 rounded-lg bg-muted/50">
+                <div className="flex items-center gap-4">
+                    <Avatar className="h-12 w-12">
+                        <AvatarImage src="https://picsum.photos/seed/2/100" data-ai-hint="user avatar" />
+                        <AvatarFallback>IG</AvatarFallback>
+                    </Avatar>
+                    <div>
+                        <p className="font-semibold">@insta_guru</p>
+                        <p className="text-sm text-muted-foreground">Your official Instagram account.</p>
+                    </div>
                 </div>
+                <Button variant="outline" size="sm">Lihat Akun</Button>
             </div>
             <div className="grid grid-cols-2 gap-4 text-center">
                 <div>
