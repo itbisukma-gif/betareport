@@ -27,7 +27,6 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { getPostDetails } from '@/ai/flows/get-post-details-flow'
 import { useToast } from '@/hooks/use-toast'
 
 export default function Home() {
@@ -96,44 +95,48 @@ export default function Home() {
 
   const handleReportPost = async (platformId: string, postUrl: string) => {
     try {
-        const details = await getPostDetails({ postUrl });
-
-        setDailyPostStatus(prevStatus =>
-            prevStatus.map(p =>
-                p.id === platformId ? {
-                    ...p,
-                    posted: true,
-                    post: {
-                        ...(p.post ?? {}),
-                        caption: details.caption,
-                        imageHint: details.imageHint,
-                        // Use a new seed for the image to make it look different
-                        thumbnail: `https://picsum.photos/seed/${Math.random()}/400/600`,
-                        // Keep likes/views/comments as placeholder
-                        likes: p.post?.likes || "0",
-                        views: p.post?.views || "0",
-                        comments: p.post?.comments || "0",
-                    }
-                } : p
-            )
-        );
-        toast({
-            title: "Laporan Terkirim",
-            description: "Status postingan telah diperbarui.",
-        });
+      const res = await fetch(`/api/preview?url=${encodeURIComponent(postUrl)}`);
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.details || 'Failed to fetch preview');
+      }
+      const details = await res.json();
+  
+      setDailyPostStatus(prevStatus =>
+        prevStatus.map(p =>
+          p.id === platformId ? {
+            ...p,
+            posted: true,
+            post: {
+              ...(p.post ?? {}),
+              caption: details.caption || p.post?.caption,
+              thumbnail: details.image || `https://picsum.photos/seed/${Math.random()}/400/600`,
+              imageHint: 'social media post',
+              // Keep likes/views/comments as placeholder
+              likes: p.post?.likes || "0",
+              views: p.post?.views || "0",
+              comments: p.post?.comments || "0",
+            }
+          } : p
+        )
+      );
+      toast({
+        title: "Laporan Terkirim",
+        description: "Status postingan telah diperbarui.",
+      });
     } catch (error) {
-        console.error("Failed to get post details:", error);
-        toast({
-            variant: "destructive",
-            title: "Gagal Menganalisis URL",
-            description: "Tidak dapat mengambil detail dari URL yang diberikan. Silakan coba lagi.",
-        });
-        // Even if AI fails, mark as posted with default content
-        setDailyPostStatus(prevStatus =>
-            prevStatus.map(p =>
-                p.id === platformId ? { ...p, posted: true } : p
-            )
-        );
+      console.error("Failed to get post details:", error);
+      toast({
+        variant: "destructive",
+        title: "Gagal Menganalisis URL",
+        description: "Tidak dapat mengambil detail dari URL yang diberikan. Silakan coba lagi.",
+      });
+      // Even if API fails, mark as posted but with default/existing content
+      setDailyPostStatus(prevStatus =>
+        prevStatus.map(p =>
+          p.id === platformId ? { ...p, posted: true } : p
+        )
+      );
     }
   };
 
@@ -514,5 +517,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
