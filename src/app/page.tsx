@@ -13,7 +13,7 @@ import { AnimatedTabs, AnimatedTabsContent } from "@/components/AnimatedTabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare, Video, Upload, CalendarDays } from "lucide-react"
+import { CheckCircle2, AlertTriangle, XCircle, Heart, Eye, MessageSquare, Video, Upload, CalendarDays, Edit } from "lucide-react"
 import Image from "next/image"
 import {
   Dialog,
@@ -23,7 +23,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog"
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 export default function Home() {
   const tabs = [
@@ -33,8 +36,9 @@ export default function Home() {
     { id: "facebook", label: "Facebook" },
   ];
 
-  const dailyPostStatus = [
-    { 
+  const [dailyPostStatus, setDailyPostStatus] = React.useState([
+    {
+      id: "tiktok",
       name: "TikTok", 
       posted: true,
       connected: true,
@@ -50,6 +54,7 @@ export default function Home() {
       uploadUrl: "https://www.tiktok.com/upload"
     },
     { 
+      id: "instagram",
       name: "Instagram", 
       posted: false,
       connected: true,
@@ -57,13 +62,14 @@ export default function Home() {
       uploadUrl: "https://www.instagram.com"
     },
     { 
+      id: "facebook",
       name: "Facebook", 
       posted: false,
       connected: false,
       icon: <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>,
       uploadUrl: "https://www.facebook.com/creatorstudio"
     },
-  ];
+  ]);
 
   const weeklySchedule = [
     { day: 'Sen', scheduled: true },
@@ -74,6 +80,14 @@ export default function Home() {
     { day: 'Sab', scheduled: false },
     { day: 'Min', scheduled: false },
   ];
+
+  const handleReportPost = (platformId: string) => {
+    setDailyPostStatus(prevStatus => 
+      prevStatus.map(p => 
+        p.id === platformId ? { ...p, posted: true } : p
+      )
+    );
+  };
 
   const postedToday = dailyPostStatus.filter(p => p.posted && p.connected);
 
@@ -156,6 +170,48 @@ export default function Home() {
                 </Button>
             </DialogFooter>
           )}
+        </DialogContent>
+      </Dialog>
+    );
+  };
+
+  const ReportPostDialog = ({ platformId, onReport }: { platformId: string; onReport: (platformId: string) => void }) => {
+    const [isOpen, setIsOpen] = React.useState(false);
+  
+    const handleSubmit = () => {
+      onReport(platformId);
+      setIsOpen(false); 
+    };
+  
+    return (
+      <Dialog open={isOpen} onOpenChange={setIsOpen}>
+        <DialogTrigger asChild>
+          <Button variant="outline">
+            <Edit className="mr-2 h-4 w-4" /> Lapor Postingan
+          </Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Lapor Postingan</DialogTitle>
+            <DialogDescription>
+              Masukkan URL postingan yang sudah diunggah untuk menandainya sebagai selesai.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <Label htmlFor="post-url" className="text-right">
+                URL
+              </Label>
+              <Input
+                id="post-url"
+                placeholder="https://tiktok.com/..."
+                className="col-span-3"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button onClick={handleSubmit}>Kirim</Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     );
@@ -301,11 +357,14 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground">Following</p>
                   </div>
               </div>
-              <VideoPostDialog appName="TikTok" uploadUrl={dailyPostStatus.find(p => p.name === 'TikTok')?.uploadUrl ?? ''}>
-                <Button>
-                  <Video className="mr-2 h-4 w-4" /> Post Video
-                </Button>
-              </VideoPostDialog>
+              <div className="flex gap-2">
+                <VideoPostDialog appName="TikTok" uploadUrl={dailyPostStatus.find(p => p.name === 'TikTok')?.uploadUrl ?? ''}>
+                  <Button className="flex-1">
+                    <Video className="mr-2 h-4 w-4" /> Post Video
+                  </Button>
+                </VideoPostDialog>
+                <ReportPostDialog platformId="tiktok" onReport={handleReportPost} />
+              </div>
             </CardContent>
           </Card>
         </AnimatedTabsContent>
@@ -349,11 +408,14 @@ export default function Home() {
                       <p className="text-sm text-muted-foreground">Following</p>
                   </div>
               </div>
-              <VideoPostDialog appName="Instagram" uploadUrl={dailyPostStatus.find(p => p.name === 'Instagram')?.uploadUrl ?? ''}>
-                <Button>
-                  <Video className="mr-2 h-4 w-4" /> Post Video
-                </Button>
-              </VideoPostDialog>
+              <div className="flex gap-2">
+                <VideoPostDialog appName="Instagram" uploadUrl={dailyPostStatus.find(p => p.name === 'Instagram')?.uploadUrl ?? ''}>
+                    <Button className="flex-1">
+                    <Video className="mr-2 h-4 w-4" /> Post Video
+                    </Button>
+                </VideoPostDialog>
+                <ReportPostDialog platformId="instagram" onReport={handleReportPost} />
+              </div>
             </CardContent>
           </Card>
         </AnimatedTabsContent>
@@ -385,5 +447,3 @@ export default function Home() {
     </div>
   );
 }
-
-    
