@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FileUp, Upload, History, MessageSquare, CheckCircle2, XCircle, Clock } from 'lucide-react';
+import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -55,7 +55,23 @@ const StatusBadge = ({ status }: { status: string }) => {
 
 
 export default function PengajuanPage() {
-  const sortedHistory = submissionHistory.sort((a, b) => b.id - a.id);
+  const sortedHistory = submissionHistory.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files.length > 0) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
+
+  const clearFile = () => {
+    setSelectedFile(null);
+    // Also reset the input field
+    const input = document.getElementById('video-file') as HTMLInputElement;
+    if (input) {
+      input.value = '';
+    }
+  };
 
   return (
     <div className="p-6 space-y-6">
@@ -69,14 +85,36 @@ export default function PengajuanPage() {
         <CardContent>
           <form className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="video-file">
-                <div className="flex items-center gap-2">
-                  <Upload className="h-4 w-4" />
-                  Upload File Video
+              <Label htmlFor="video-file" className="sr-only">Upload File Video</Label>
+              {selectedFile ? (
+                <div className="flex items-center justify-between gap-3 p-3 rounded-lg bg-muted border">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <Video className="h-5 w-5 flex-shrink-0 text-muted-foreground" />
+                    <span className="font-medium text-sm truncate">{selectedFile.name}</span>
+                  </div>
+                  <Button variant="ghost" size="icon" onClick={clearFile} className="h-7 w-7 flex-shrink-0">
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Hapus file</span>
+                  </Button>
                 </div>
-              </Label>
-              <Input id="video-file" type="file" />
+              ) : (
+                <Label htmlFor="video-file" className="relative block w-full h-48 border-2 border-dashed rounded-lg text-center flex flex-col justify-center items-center cursor-pointer hover:border-primary hover:bg-muted/50 transition-colors">
+                  <div className="flex flex-col items-center text-muted-foreground">
+                    <FileUp className="h-8 w-8 mb-2" />
+                    <span className="font-semibold">Seret & lepas file atau klik untuk unggah</span>
+                    <span className="text-xs mt-1">Video (MP4, MOV, maks 500MB)</span>
+                  </div>
+                  <Input 
+                    id="video-file" 
+                    type="file" 
+                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                    onChange={handleFileChange}
+                    accept="video/mp4,video/quicktime"
+                  />
+                </Label>
+              )}
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="caption">
                 <div className="flex items-center gap-2">
