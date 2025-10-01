@@ -53,7 +53,7 @@ export default function Home() {
   const postedToday = dailyPostStatus.filter(p => p.posted && p.connected);
 
   return (
-    <main className="p-6 pt-24 pb-20">
+    <div className="p-6 pb-20">
       <AnimatedTabs tabs={tabs} initialTab="overview" className="w-full">
         <AnimatedTabsContent value="overview">
           <Card>
@@ -256,6 +256,6 @@ export default function Home() {
           </Card>
         </AnimatedTabsContent>
       </AnimatedTabs>
-    </main>
+    </div>
   );
 }
