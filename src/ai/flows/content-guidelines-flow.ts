@@ -18,6 +18,7 @@ export type ContentGuidelinesOutput = z.infer<typeof ContentGuidelinesOutputSche
 
 const prompt = ai.definePrompt({
   name: 'contentGuidelinesPrompt',
+  model: 'gemini-pro',
   output: { schema: ContentGuidelinesOutputSchema },
   prompt: `You are a kitchen operations and social media manager for "MBG", a program that provides free nutritious meals.
 Your task is to generate clear and concise guidelines for content creators filming in the kitchen.
