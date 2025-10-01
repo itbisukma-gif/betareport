@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
 export default function Home() {
   return (
@@ -53,8 +54,27 @@ export default function Home() {
               Your TikTok performance metrics.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
-            {/* Content for TikTok tab */}
+          <CardContent className="space-y-4">
+            <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50">
+                <Avatar className="h-12 w-12">
+                    <AvatarImage src="https://picsum.photos/seed/1/100" data-ai-hint="user avatar" />
+                    <AvatarFallback>TT</AvatarFallback>
+                </Avatar>
+                <div>
+                    <p className="font-semibold">@tiktokexpert</p>
+                    <p className="text-sm text-muted-foreground">Your official TikTok account.</p>
+                </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 text-center">
+                <div>
+                    <p className="font-bold text-2xl">1.2M</p>
+                    <p className="text-sm text-muted-foreground">Followers</p>
+                </div>
+                <div>
+                    <p className="font-bold text-2xl">542</p>
+                    <p className="text-sm text-muted-foreground">Following</p>
+                </div>
+            </div>
           </CardContent>
         </Card>
       </TabsContent>
@@ -74,8 +94,27 @@ export default function Home() {
               Your Instagram performance metrics.
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-2">
-            {/* Content for Instagram tab */}
+          <CardContent className="space-y-4">
+            <div className="flex items-center gap-4 p-4 rounded-lg bg-muted/50">
+                <Avatar className="h-12 w-12">
+                    <AvatarImage src="https://picsum.photos/seed/2/100" data-ai-hint="user avatar" />
+                    <AvatarFallback>IG</AvatarFallback>
+                </Avatar>
+                <div>
+                    <p className="font-semibold">@insta_guru</p>
+                    <p className="text-sm text-muted-foreground">Your official Instagram account.</p>
+                </div>
+            </div>
+            <div className="grid grid-cols-2 gap-4 text-center">
+                <div>
+                    <p className="font-bold text-2xl">850K</p>
+                    <p className="text-sm text-muted-foreground">Followers</p>
+                </div>
+                <div>
+                    <p className="font-bold text-2xl">1,203</p>
+                    <p className="text-sm text-muted-foreground">Following</p>
+                </div>
+            </div>
           </CardContent>
         </Card>
       </TabsContent>
