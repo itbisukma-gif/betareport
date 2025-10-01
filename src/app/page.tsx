@@ -23,7 +23,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { getContentGuidelines, type ContentGuidelinesOutput } from '@/ai/flows/content-guidelines-flow'
 
 export default function Home() {
   const tabs = [
@@ -65,36 +64,21 @@ export default function Home() {
   const postedToday = dailyPostStatus.filter(p => p.posted && p.connected);
 
   const VideoPostDialog = ({children}: {children: React.ReactNode}) => {
-    const [open, setOpen] = React.useState(false);
-    const [guidelines, setGuidelines] = React.useState<ContentGuidelinesOutput | null>(null);
-    const [isLoading, setIsLoading] = React.useState(false);
-    
-    React.useEffect(() => {
-      const handleOpenDialog = async () => {
-        if (guidelines) return; // Don't refetch if we already have the data
-        
-        setIsLoading(true);
-        try {
-          const result = await getContentGuidelines();
-          setGuidelines(result);
-        } catch (error) {
-          console.error("Failed to get content guidelines:", error);
-          setGuidelines({
-            hygieneStandards: 'Gagal memuat standar higienis.',
-            contentRules: 'Gagal memuat peraturan konten.'
-          });
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      if (open) {
-        handleOpenDialog();
-      }
-    }, [open, guidelines]);
+    const guidelines = {
+      hygieneStandards: `•   Selalu cuci tangan dengan sabun dan air mengalir sebelum dan sesudah menangani makanan.
+•   Gunakan penutup kepala (hairnet) dan celemek bersih selama berada di area dapur.
+•   Lepaskan semua perhiasan (cincin, gelang, jam tangan) sebelum memulai pekerjaan.
+•   Jaga kebersihan kuku, pastikan pendek dan tidak menggunakan cat kuku.
+•   Gunakan sarung tangan sekali pakai saat menangani makanan siap saji.`,
+      contentRules: `•   Fokus pada citra positif: Tunjukkan proses memasak yang bersih, bahan-bahan segar, dan semangat tim.
+•   Dilarang mengganggu staf: Jangan mewawancarai atau mengarahkan staf yang sedang sibuk bekerja.
+•   Minta izin sebelum merekam wajah: Selalu minta persetujuan lisan sebelum merekam wajah seseorang secara close-up.
+•   Hanya rekam area bersih: Hindari merekam area cuci piring yang kotor, tempat sampah, atau area yang berantakan.
+•   Tidak ada drama: Konten harus profesional dan tidak menciptakan konflik atau gosip.`
+    };
 
     return (
-      <Dialog open={open} onOpenChange={setOpen}>
+      <Dialog>
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
@@ -105,37 +89,20 @@ export default function Home() {
               Aturan dan standar untuk pembuatan konten di dapur MBG.
             </DialogDescription>
           </DialogHeader>
-          {isLoading ? (
-            <div className="space-y-4 py-4">
-              <div className="space-y-2">
-                <div className="h-4 bg-muted rounded w-1/3 animate-pulse"></div>
-                <div className="h-3 bg-muted rounded w-full animate-pulse"></div>
-                <div className="h-3 bg-muted rounded w-full animate-pulse"></div>
-                <div className="h-3 bg-muted rounded w-2/3 animate-pulse"></div>
-              </div>
-              <div className="space-y-2">
-                <div className="h-4 bg-muted rounded w-1/3 animate-pulse"></div>
-                <div className="h-3 bg-muted rounded w-full animate-pulse"></div>
-                <div className="h-3 bg-muted rounded w-full animate-pulse"></div>
-                <div className="h-3 bg-muted rounded w-2/3 animate-pulse"></div>
-              </div>
-            </div>
-          ) : (
           <div className="py-4 space-y-4 text-sm">
             <div>
               <h3 className="font-semibold mb-2">Standar Higienis Dapur MBG</h3>
               <p className="text-muted-foreground whitespace-pre-line">
-                {guidelines?.hygieneStandards}
+                {guidelines.hygieneStandards}
               </p>
             </div>
             <div>
               <h3 className="font-semibold mb-2">Peraturan Pengambilan Konten</h3>
               <p className="text-muted-foreground whitespace-pre-line">
-                {guidelines?.contentRules}
+                {guidelines.contentRules}
               </p>
             </div>
           </div>
-          )}
         </DialogContent>
       </Dialog>
     );
@@ -346,5 +313,7 @@ export default function Home() {
     </div>
   );
 }
+
+    
 
     
