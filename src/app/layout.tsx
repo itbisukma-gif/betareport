@@ -3,6 +3,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { BottomNav } from '@/components/BottomNav';
 import { Toaster } from "@/components/ui/toaster"
+import { Header } from '@/components/Header';
 
 export const metadata: Metadata = {
   title: 'PastelNav',
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className={cn('font-body antialiased')}>
         <div className="flex justify-center items-start min-h-screen bg-muted/30 dark:bg-muted/10">
           <div className="relative w-full max-w-md bg-background flex flex-col h-screen shadow-xl">
+            <Header />
             <main className="flex-1 overflow-y-auto p-6 pb-20">{children}</main>
             <BottomNav />
           </div>
