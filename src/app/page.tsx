@@ -2,6 +2,7 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -12,6 +13,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
@@ -96,6 +98,9 @@ export default function Home() {
           <CardContent className="space-y-2">
             {/* Content for Facebook tab */}
           </CardContent>
+          <CardFooter className="flex-col items-start gap-4">
+            <Button variant="destructive" size="sm">Kaitkan Akun API</Button>
+          </CardFooter>
         </Card>
       </TabsContent>
     </Tabs>
