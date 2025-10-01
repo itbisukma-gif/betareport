@@ -23,7 +23,7 @@ export function Header() {
   const title = getTitle();
 
   return (
-    <header className="fixed top-0 left-0 w-full flex items-center justify-between p-4 bg-background/95 backdrop-blur-sm z-10">
+    <header className="fixed top-0 left-0 w-full flex items-center justify-between p-4 bg-background z-10">
       <div className="flex items-center">
         {pathname === '/' ? (
           <div className="flex items-baseline">
