@@ -38,6 +38,7 @@ export default function Home() {
   ];
 
   const { toast } = useToast();
+  const [reportPlatformId, setReportPlatformId] = React.useState<string | null>(null);
 
   const [dailyPostStatus, setDailyPostStatus] = React.useState([
     {
@@ -146,11 +147,13 @@ export default function Home() {
   const VideoPostDialog = ({
     children,
     appName,
-    uploadUrl
+    uploadUrl,
+    platformId,
   }: {
     children: React.ReactNode,
     appName: string,
-    uploadUrl: string
+    uploadUrl: string,
+    platformId: string,
   }) => {
     const guidelines = {
       hygieneStandards: `•   Selalu cuci tangan dengan sabun dan air mengalir sebelum dan sesudah menangani makanan.
@@ -171,6 +174,7 @@ export default function Home() {
 •   Durasi video idealnya antara 15-60 detik untuk menjaga perhatian penonton.`
     };
     const [isScrolledToEnd, setIsScrolledToEnd] = React.useState(false);
+    const [isGuidelinesOpen, setIsGuidelinesOpen] = React.useState(false);
 
     const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {
       const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
@@ -180,13 +184,19 @@ export default function Home() {
     };
     
     const onOpenChange = (open: boolean) => {
+        setIsGuidelinesOpen(open);
         if (!open) {
             setIsScrolledToEnd(false);
         }
     }
 
+    const handleUploadClick = () => {
+        setIsGuidelinesOpen(false); // Close this dialog
+        setReportPlatformId(platformId); // Set which platform to report for
+    };
+
     return (
-      <Dialog onOpenChange={onOpenChange}>
+      <Dialog open={isGuidelinesOpen} onOpenChange={onOpenChange}>
         <DialogTrigger asChild>
           {children}
         </DialogTrigger>
@@ -215,7 +225,7 @@ export default function Home() {
           </div>
           {isScrolledToEnd && (
             <DialogFooter className="pt-4 border-t mt-0">
-                <Button asChild className="w-full">
+                <Button asChild className="w-full" onClick={handleUploadClick}>
                 <a href={uploadUrl} target="_blank" rel="noopener noreferrer">
                     <Upload className="mr-2 h-4 w-4" /> Upload ke {appName}
                 </a>
@@ -227,10 +237,16 @@ export default function Home() {
     );
   };
 
-  const ReportPostDialog = ({ platformId, onReport }: { platformId: string; onReport: (platformId: string, postUrl: string) => void }) => {
-    const [isOpen, setIsOpen] = React.useState(false);
+  const ReportPostDialog = ({ platformId, onReport }: { platformId: string | null; onReport: (platformId: string, postUrl: string) => void }) => {
     const [url, setUrl] = React.useState("");
     const [isLoading, setIsLoading] = React.useState(false);
+
+    const isOpen = !!platformId;
+    
+    const handleClose = () => {
+        setReportPlatformId(null);
+        setUrl("");
+    }
 
     const handleSubmit = async () => {
         if (!url) {
@@ -241,20 +257,16 @@ export default function Home() {
             });
             return;
         }
+        if (!platformId) return;
+
         setIsLoading(true);
         await onReport(platformId, url);
         setIsLoading(false);
-        setIsOpen(false);
-        setUrl("");
+        handleClose();
     };
 
     return (
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogTrigger asChild>
-          <Button variant="outline">
-            Lapor Postingan
-          </Button>
-        </DialogTrigger>
+      <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Lapor Postingan</DialogTitle>
@@ -428,12 +440,11 @@ export default function Home() {
                   </div>
               </div>
               <div className="flex gap-2">
-                <VideoPostDialog appName="TikTok" uploadUrl={dailyPostStatus.find(p => p.name === 'TikTok')?.uploadUrl ?? ''}>
-                  <Button className="flex-1">
+                <VideoPostDialog appName="TikTok" uploadUrl={dailyPostStatus.find(p => p.name === 'TikTok')?.uploadUrl ?? ''} platformId="tiktok">
+                  <Button className="w-full">
                     <Video className="mr-2 h-4 w-4" /> Post Video
                   </Button>
                 </VideoPostDialog>
-                <ReportPostDialog platformId="tiktok" onReport={handleReportPost} />
               </div>
             </CardContent>
           </Card>
@@ -479,12 +490,11 @@ export default function Home() {
                   </div>
               </div>
               <div className="flex gap-2">
-                <VideoPostDialog appName="Instagram" uploadUrl={dailyPostStatus.find(p => p.name === 'Instagram')?.uploadUrl ?? ''}>
-                    <Button className="flex-1">
+                <VideoPostDialog appName="Instagram" uploadUrl={dailyPostStatus.find(p => p.name === 'Instagram')?.uploadUrl ?? ''} platformId="instagram">
+                    <Button className="w-full">
                     <Video className="mr-2 h-4 w-4" /> Post Video
                     </Button>
                 </VideoPostDialog>
-                <ReportPostDialog platformId="instagram" onReport={handleReportPost} />
               </div>
             </CardContent>
           </Card>
@@ -514,6 +524,9 @@ export default function Home() {
           </Card>
         </AnimatedTabsContent>
       </AnimatedTabs>
+      <ReportPostDialog platformId={reportPlatformId} onReport={handleReportPost} />
     </div>
   );
 }
+
+    
