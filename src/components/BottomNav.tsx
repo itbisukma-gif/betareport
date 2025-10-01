@@ -36,7 +36,7 @@ export function BottomNav() {
                 <item.icon
                   className={cn(
                     'h-5 w-5 transition-colors',
-                    isActive ? 'text-accent-dark' : 'text-muted-foreground'
+                    isActive ? 'text-accent-dark animate-pulse-once' : 'text-muted-foreground'
                   )}
                   aria-hidden="true"
                 />
