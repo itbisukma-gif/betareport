@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -9,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw, PlayCircle } from 'lucide-react';
+import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw, PlayCircle, Download } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -158,10 +159,14 @@ export default function PengajuanPage() {
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-             <div className="flex justify-end">
+             <div className="flex justify-end gap-2">
                 <Button variant="ghost">
                     <PlayCircle className="mr-2 h-4 w-4" />
                     Content Reference
+                </Button>
+                <Button variant="ghost">
+                    <Download className="mr-2 h-4 w-4" />
+                    Assets Download
                 </Button>
             </div>
             <div className="space-y-2">
@@ -307,3 +312,5 @@ export default function PengajuanPage() {
     </div>
   );
 }
+
+    
