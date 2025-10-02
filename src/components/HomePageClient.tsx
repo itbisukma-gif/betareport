@@ -1,4 +1,3 @@
-
 'use client';
 import * as React from 'react';
 import { useSearchParams } from 'next/navigation';
@@ -39,7 +38,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { initialDailyPostStatus, weeklySchedule, type DailyPost } from '@/lib/mock-data.tsx';
 
-export function HomePageClient() {
+export default function HomePageClient() {
   const searchParams = useSearchParams();
   const initialTabId = searchParams.get('tab') || 'overview';
 
