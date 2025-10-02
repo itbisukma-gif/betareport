@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
+import useEmblaCarousel, { type UseEmblaCarouselType, type EmblaCarouselType } from 'embla-carousel-react';
 
 type Tab = {
   id: string;
@@ -54,8 +54,8 @@ export const AnimatedTabs = ({
   React.useEffect(() => {
     if (!emblaApi) return;
 
-    const onSelect = () => {
-      const newActiveTab = tabs[emblaApi.selectedSnap()].id;
+    const onSelect = (emblaApi: EmblaCarouselType) => {
+      const newActiveTab = tabs[emblaApi.selectedScrollSnap()].id;
       setActiveTab(newActiveTab);
       onTabChange?.(newActiveTab);
     };
