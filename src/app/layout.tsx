@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'PastelNav',
   description: 'A minimalist app with pastel-themed navigation.',
   icons: {
-    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>B</text></svg>",
+    icon: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M3 3v18h18%22/><path d=%22M18.7 8a5 5 0 0 1-5.7-4.3%22/><path d=%22M13 18.7a5 5 0 0 1-4.3-5.7%22/><path d=%22M8 13a5 5 0 0 1-5.7-4.3%22/></svg>",
   }
 };
 
