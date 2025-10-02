@@ -4,7 +4,7 @@
 import * as React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import useEmblaCarousel, { type UseEmblaCarouselType, type EmblaCarouselType } from 'embla-carousel-react';
+import useEmblaCarousel, { type EmblaCarouselType } from 'embla-carousel-react';
 
 type Tab = {
   id: string;
