@@ -123,7 +123,7 @@ export default function ProfilePage() {
                     </CardContent>
                 </Card>
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="sm:max-w-lg">
                 <DialogHeader>
                 <DialogTitle>Analitik Konten Mingguan</DialogTitle>
                 <DialogDescription>
@@ -221,5 +221,3 @@ export default function ProfilePage() {
     </div>
   );
 }
-
-    
