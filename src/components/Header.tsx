@@ -16,7 +16,7 @@ export function Header() {
       case '/pengajuan':
         return 'Pengajuan';
       case '/notifications':
-        return 'Notifications';
+        return 'Notifikasi';
       case '/profile':
         return 'Profile';
       default:
