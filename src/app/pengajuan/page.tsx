@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw, PlayCircle, Download } from 'lucide-react';
+import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw, PlayCircle, Download, CircleAlert } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -54,6 +54,53 @@ const StatusBadge = ({ status }: { status: string }) => {
     default:
       return <Badge variant="secondary" className="font-normal"><Clock className="mr-1 h-3 w-3" />{status}</Badge>;
   }
+};
+
+const ContentGuidelinesDialog = ({ children }: { children: React.ReactNode }) => {
+    const guidelines = {
+      hygieneStandards: `•   Selalu cuci tangan dengan sabun dan air mengalir.
+•   Gunakan penutup kepala (hairnet) dan celemek bersih.
+•   Lepaskan semua perhiasan (cincin, gelang, jam tangan).
+•   Jaga kebersihan kuku, pastikan pendek dan tidak menggunakan cat kuku.
+•   Jangan pernah bekerja saat sakit.`,
+      contentRules: `•   Fokus pada citra positif: Tunjukkan proses yang bersih dan semangat tim.
+•   Minta izin sebelum merekam wajah secara close-up.
+•   Hanya rekam area bersih: Hindari merekam area cuci piring kotor atau tempat sampah.
+•   Gunakan pencahayaan yang baik dan pastikan suara jernih.
+•   Durasi video idealnya antara 15-60 detik.`
+    };
+
+    return (
+        <Dialog>
+            <DialogTrigger asChild>
+                {children}
+            </DialogTrigger>
+            <DialogContent className="max-h-[80vh] flex flex-col">
+                <DialogHeader>
+                    <DialogTitle>Panduan Pengambilan Konten</DialogTitle>
+                    <DialogDescription>
+                        Aturan dan standar untuk pembuatan konten di dapur MBG.
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="flex-grow overflow-y-auto pr-4 -mr-4">
+                    <div className="py-4 space-y-4 text-sm ">
+                        <div>
+                            <h3 className="font-semibold mb-2">Panduan Umum Konten</h3>
+                            <p className="text-muted-foreground whitespace-pre-line">
+                                {guidelines.contentRules}
+                            </p>
+                        </div>
+                        <div>
+                            <h3 className="font-semibold mb-2">Panduan Higienis Dapur</h3>
+                            <p className="text-muted-foreground whitespace-pre-line">
+                                {guidelines.hygieneStandards}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </DialogContent>
+        </Dialog>
+    );
 };
 
 
@@ -198,6 +245,12 @@ export default function PengajuanPage() {
                   />
                 </Label>
               )}
+               <ContentGuidelinesDialog>
+                    <Button variant="link" className="text-muted-foreground font-normal text-xs py-1 h-auto">
+                        <CircleAlert className="mr-2 h-4 w-4" />
+                        Panduan Pengambilan Konten
+                    </Button>
+                </ContentGuidelinesDialog>
             </div>
 
             <div className="space-y-2">
