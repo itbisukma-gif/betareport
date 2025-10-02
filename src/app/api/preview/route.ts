@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 
     let imageUrl: string | undefined;
     if (Array.isArray(result.ogImage)) {
-      if (result.ogImage[0]) {
+      if (result.ogImage[0] && 'url' in result.ogImage[0]) {
         imageUrl = result.ogImage[0].url;
       }
     } else if (result.ogImage && 'url' in result.ogImage) {
