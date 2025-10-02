@@ -30,7 +30,8 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
   }, []);
 
 
-  const togglePlay = () => {
+  const togglePlay = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     const video = videoRef.current;
     if (!video) return;
 
@@ -96,6 +97,9 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
       className={cn('relative w-full overflow-hidden rounded-lg group bg-black', className)}
       onClick={togglePlay}
       onPointerMove={handlePointerMove}
+      onMouseLeave={() => {
+        if (isPlaying) setShowControls(false);
+      }}
     >
       <video
         ref={videoRef}
@@ -112,10 +116,13 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
       />
       <div 
         className={cn(
-            "absolute bottom-0 left-0 right-0 p-4 transition-opacity duration-300",
+            "absolute bottom-0 left-0 right-0 p-2 sm:p-4 transition-opacity duration-300",
             showControls ? "opacity-100" : "opacity-0"
         )}>
-         <div className="flex items-center gap-3 bg-black/30 backdrop-blur-sm p-2 rounded-lg">
+         <div className="flex items-center gap-2 sm:gap-3 bg-black/30 backdrop-blur-sm p-2 rounded-lg">
+            <button onClick={togglePlay} className="text-white flex-shrink-0">
+                {isPlaying ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+            </button>
             <span className="text-white text-xs font-mono">{formatTime(videoRef.current?.currentTime ?? 0)}</span>
             <Slider
                 value={[progress]}
@@ -123,9 +130,10 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
                 step={0.1}
                 onValueChange={handleSeek}
                 className="w-full cursor-pointer"
+                onClick={(e) => e.stopPropagation()}
             />
             <span className="text-white text-xs font-mono">{formatTime(duration)}</span>
-            <button onClick={toggleMute} className="text-white">
+            <button onClick={toggleMute} className="text-white flex-shrink-0">
                 {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
             </button>
          </div>
