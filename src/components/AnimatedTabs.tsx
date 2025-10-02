@@ -1,8 +1,7 @@
-
 'use client';
 
 import * as React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import useEmblaCarousel, { type EmblaCarouselType } from 'embla-carousel-react';
 
@@ -18,6 +17,9 @@ type AnimatedTabsProps = {
   children: React.ReactNode;
   className?: string;
 };
+
+// Context untuk share activeTab
+const TabsContext = React.createContext<{ activeTab: string }>({ activeTab: '' });
 
 export const AnimatedTabs = ({
   tabs,
@@ -64,41 +66,43 @@ export const AnimatedTabs = ({
   }, [emblaApi, tabs, onTabChange]);
 
   return (
-    <div className={cn('w-full', className)}>
-      <div className="relative grid grid-cols-4 bg-transparent p-0">
-        {tabs.map((tab, index) => (
-          <button
-            key={tab.id}
-            onClick={() => handleSetTab(index)}
-            className={cn(
-              'relative z-10 inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
-              activeTab === tab.id
-                ? 'text-primary-foreground'
-                : 'text-muted-foreground hover:text-foreground'
-            )}
-          >
-            {activeTab === tab.id && (
-              <motion.span
-                layoutId="bubble"
-                className="absolute inset-0 z-0 rounded-full bg-primary"
-                transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-              />
-            )}
-            <span className="relative">{tab.label}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="overflow-hidden mt-2" ref={emblaRef}>
-        <div className="flex -ml-2">
-          {React.Children.map(children, (child) => (
-            <div className="relative flex-shrink-0 w-full pl-2">
-              {child}
-            </div>
+    <TabsContext.Provider value={{ activeTab }}>
+      <div className={cn('w-full', className)}>
+        {/* Tab header */}
+        <div className="relative grid grid-cols-4 bg-transparent p-0">
+          {tabs.map((tab, index) => (
+            <button
+              key={tab.id}
+              onClick={() => handleSetTab(index)}
+              className={cn(
+                'relative z-10 inline-flex items-center justify-center whitespace-nowrap rounded-full px-3 py-1.5 text-sm font-medium transition-all',
+                activeTab === tab.id
+                  ? 'text-primary-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              )}
+            >
+              {activeTab === tab.id && (
+                <motion.span
+                  layoutId="bubble"
+                  className="absolute inset-0 z-0 rounded-full bg-primary"
+                  transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
+                />
+              )}
+              <span className="relative">{tab.label}</span>
+            </button>
           ))}
         </div>
+
+        {/* Tab content slider */}
+        <div className="overflow-hidden mt-2" ref={emblaRef}>
+          <div className="flex -ml-2">
+            {React.Children.map(children, (child) => (
+              <div className="relative flex-shrink-0 w-full pl-2">{child}</div>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </TabsContext.Provider>
   );
 };
 
@@ -109,5 +113,8 @@ export const AnimatedTabsContent = ({
   value: string;
   children: React.ReactNode;
 }) => {
+  const { activeTab } = React.useContext(TabsContext);
+
+  if (activeTab !== value) return null; // 🚀 hanya render kalau tab aktif
   return <>{children}</>;
 };
