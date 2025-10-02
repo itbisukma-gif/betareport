@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
       if (result.ogImage[0]) {
         imageUrl = result.ogImage[0].url;
       }
-    } else if (result.ogImage) {
+    } else if (result.ogImage && 'url' in result.ogImage) {
       imageUrl = result.ogImage.url;
     }
 
