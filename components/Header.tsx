@@ -1,12 +1,11 @@
-
 'use client';
 import { usePathname } from 'next/navigation';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from './ui/avatar';
 import { LogOut, User, Settings } from 'lucide-react';
 import Link from 'next/link';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover';
+import { Button } from './ui/button';
+import { Separator } from './ui/separator';
 
 export function Header() {
   const pathname = usePathname();
