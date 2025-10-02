@@ -56,7 +56,7 @@ const StatusBadge = ({ status }: { status: string }) => {
   }
 };
 
-const ContentGuidelinesDialog = ({ children }: { children: React.ReactNode }) => {
+const ContentGuidelinesDialog = ({ children, asChild = false }: { children: React.ReactNode, asChild?: boolean }) => {
     const guidelines = {
       hygieneStandards: `•   Selalu cuci tangan dengan sabun dan air mengalir.
 •   Gunakan penutup kepala (hairnet) dan celemek bersih.
@@ -72,7 +72,7 @@ const ContentGuidelinesDialog = ({ children }: { children: React.ReactNode }) =>
 
     return (
         <Dialog>
-            <DialogTrigger asChild>
+            <DialogTrigger asChild={asChild}>
                 {children}
             </DialogTrigger>
             <DialogContent className="max-h-[80vh] flex flex-col">
@@ -206,16 +206,6 @@ export default function PengajuanPage() {
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-             <div className="flex justify-end gap-2">
-                <Button variant="ghost">
-                    <PlayCircle className="mr-2 h-4 w-4" />
-                    Content Reference
-                </Button>
-                <Button variant="ghost">
-                    <Download className="mr-2 h-4 w-4" />
-                    Assets Download
-                </Button>
-            </div>
             <div className="space-y-2">
               <Label htmlFor="video-file" className="sr-only">Upload File Video</Label>
               {selectedFile ? (
@@ -245,8 +235,19 @@ export default function PengajuanPage() {
                   />
                 </Label>
               )}
-               <ContentGuidelinesDialog>
-                    <Button variant="link" className="text-muted-foreground font-normal text-xs py-1 h-auto">
+            </div>
+            
+            <div className='flex flex-col gap-2'>
+                <Button variant="outline" className='w-full justify-start'>
+                    <PlayCircle className="mr-2" />
+                    Content Reference
+                </Button>
+                <Button variant="outline" className='w-full justify-start'>
+                    <Download className="mr-2" />
+                    Assets Download
+                </Button>
+                 <ContentGuidelinesDialog asChild>
+                    <Button variant="link" className="text-muted-foreground font-normal text-xs py-1 h-auto justify-center">
                         <CircleAlert className="mr-2 h-4 w-4" />
                         Panduan Pengambilan Konten
                     </Button>
