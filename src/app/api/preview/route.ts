@@ -1,6 +1,20 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import ogs from 'open-graph-scraper';
+
+type OgImage = { url: string };
+
+// Helper untuk ambil ogImage
+function getOgImageUrl(ogImage: unknown): string | undefined {
+  if (Array.isArray(ogImage)) {
+    const first = ogImage[0];
+    if (first && typeof first === "object" && "url" in first) {
+      return (first as OgImage).url;
+    }
+  } else if (ogImage && typeof ogImage === "object" && "url" in ogImage) {
+    return (ogImage as OgImage).url;
+  }
+  return undefined;
+}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -23,15 +37,7 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    let imageUrl: string | undefined;
-    if (Array.isArray(result.ogImage)) {
-      if (result.ogImage[0] && 'url' in result.ogImage[0]) {
-        imageUrl = result.ogImage[0].url;
-      }
-    } else if (result.ogImage && 'url' in result.ogImage) {
-      imageUrl = result.ogImage.url;
-    }
-
+    const imageUrl = getOgImageUrl(result.ogImage);
 
     return NextResponse.json({
       caption: result.ogTitle || '',
