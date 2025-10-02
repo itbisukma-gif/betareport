@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
       return NextResponse.json(
         {
           caption: 'Konten berhasil diunggah!',
-          image: `https://picsum.photos/seed/${Math.random()}/400/600`,
+          image: `https://picsum.photos/seed/fallback-ogs/400/600`,
         },
         { status: 200 }
       );
@@ -27,16 +27,18 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       caption: result.ogTitle || '',
-      image: imageUrl || `https://picsum.photos/seed/${Math.random()}/400/600`,
+      image: imageUrl || `https://picsum.photos/seed/fallback-image/400/600`,
     });
   } catch (error: any) {
     console.error('OGS Critical Error:', error);
     return NextResponse.json(
       {
         caption: 'Konten berhasil diunggah!',
-        image: `https://picsum.photos/seed/${Math.random()}/400/600`,
+        image: `https://picsum.photos/seed/critical-error/400/600`,
       },
       { status: 200 }
     );
   }
 }
+
+    

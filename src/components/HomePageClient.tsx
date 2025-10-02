@@ -80,7 +80,7 @@ export default function HomePageClient() {
                     'Konten berhasil diunggah!',
                   thumbnail:
                     details.image ||
-                    `https://picsum.photos/seed/${Math.random()}/400/600`,
+                    `https://picsum.photos/seed/fallback/400/600`,
                   imageHint: 'social media post',
                   likes: p.post?.likes || '0',
                   views: p.post?.views || '0',
@@ -111,7 +111,7 @@ export default function HomePageClient() {
                 posted: true,
                 post: p.post || {
                   caption: 'Konten berhasil diunggah!',
-                  thumbnail: `https://picsum.photos/seed/${Math.random()}/400/600`,
+                  thumbnail: `https://picsum.photos/seed/error/400/600`,
                   imageHint: 'social media post',
                   likes: '0',
                   views: '0',
@@ -634,3 +634,5 @@ export default function HomePageClient() {
     </div>
   );
 }
+
+    
