@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -70,15 +71,17 @@ const ProfileItem = ({ icon, label, value, type = 'text' }: { icon: React.ReactN
 export default function ProfilePage() {
   return (
     <div className="p-4 sm:p-6 space-y-6">
-        <div className="flex flex-col items-center text-center">
-            <Avatar className="h-24 w-24 mb-4">
+        <div className="flex items-center gap-4">
+            <Avatar className="h-16 w-16">
                 <AvatarImage src="https://picsum.photos/seed/profile-avatar/200" data-ai-hint="user avatar" />
                 <AvatarFallback>
-                    <User className="h-10 w-10 text-muted-foreground" />
+                    <User className="h-8 w-8 text-muted-foreground" />
                 </AvatarFallback>
             </Avatar>
-            <h2 className="text-2xl font-bold">Tim MBG</h2>
-            <p className="text-muted-foreground">Marketing Team</p>
+            <div>
+              <h2 className="text-xl font-bold">Nael Sianipar</h2>
+              <p className="text-sm text-muted-foreground">SPPG Yayasan Bisukma Bangun Bangsa</p>
+            </div>
         </div>
 
         <Card>
