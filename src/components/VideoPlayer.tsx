@@ -19,15 +19,42 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
   const [showControls, setShowControls] = React.useState(true);
   const controlsTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
+  const hideControls = () => {
+    if (controlsTimeoutRef.current) {
+      clearTimeout(controlsTimeoutRef.current);
+    }
+    controlsTimeoutRef.current = setTimeout(() => {
+      if (isPlaying) {
+        setShowControls(false);
+      }
+    }, 2000);
+  };
+  
   React.useEffect(() => {
     const video = videoRef.current;
     if (video) {
-        video.play().catch(error => {
-            console.error("Autoplay was prevented: ", error);
+        video.play().catch(() => {
             setIsPlaying(false);
         });
     }
+
+    return () => {
+        if (controlsTimeoutRef.current) {
+            clearTimeout(controlsTimeoutRef.current);
+        }
+    }
   }, []);
+
+  React.useEffect(() => {
+    if (isPlaying) {
+      hideControls();
+    } else {
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+      setShowControls(true);
+    }
+  }, [isPlaying]);
 
 
   const togglePlay = (e?: React.MouseEvent) => {
@@ -37,10 +64,8 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
 
     if (video.paused) {
       video.play();
-      setIsPlaying(true);
     } else {
       video.pause();
-      setIsPlaying(false);
     }
   };
 
@@ -82,14 +107,7 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
 
   const handlePointerMove = () => {
     setShowControls(true);
-    if (controlsTimeoutRef.current) {
-      clearTimeout(controlsTimeoutRef.current);
-    }
-    controlsTimeoutRef.current = setTimeout(() => {
-      if (isPlaying) {
-        setShowControls(false);
-      }
-    }, 2000);
+    hideControls();
   };
 
   return (
