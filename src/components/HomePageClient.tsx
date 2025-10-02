@@ -85,6 +85,7 @@ export default function HomePageClient() {
                   imageHint: 'social media post',
                   likes: p.post?.likes || '0',
                   views: p.post?.views || '0',
+  
                   comments: p.post?.comments || '0',
                 },
               }
@@ -634,3 +635,5 @@ export default function HomePageClient() {
     </div>
   );
 }
+
+    
