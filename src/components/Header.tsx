@@ -41,7 +41,7 @@ export function Header() {
       </div>
       <Popover>
         <PopoverTrigger asChild>
-            <div className="flex items-center gap-3 min-w-0 cursor-pointer">
+            <div className="flex items-center gap-3 cursor-pointer">
                 <div className="text-right min-w-0">
                     <p className="text-sm font-semibold truncate">Nael Sianipar</p>
                     <p className="text-xs text-muted-foreground truncate">SPPG Yayasan Bisukma Bangun Bangsa</p>
