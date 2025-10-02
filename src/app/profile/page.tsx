@@ -138,7 +138,7 @@ export default function ProfilePage() {
                             margin={{
                                 top: 5,
                                 right: 10,
-                                left: 10,
+                                left: -10,
                                 bottom: 5,
                             }}
                         >
@@ -148,13 +148,14 @@ export default function ProfilePage() {
                                 tickLine={false}
                                 axisLine={false}
                                 tickMargin={8}
+                                tick={{ fontSize: 12 }}
                             />
                              <YAxis
                                 tickFormatter={(value) => `${value / 1000}K`}
                                 tickLine={false}
                                 axisLine={false}
                                 tickMargin={8}
-                                width={35}
+                                tick={{ fontSize: 12 }}
                             />
                             <ChartTooltip
                                 cursor={false}
@@ -221,4 +222,3 @@ export default function ProfilePage() {
   );
 }
 
-    
