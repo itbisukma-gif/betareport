@@ -13,6 +13,15 @@ export async function GET(req: NextRequest) {
   try {
     const { result } = await ogs({ url });
 
+    if (result.success === false || !result.ogTitle) {
+      // Handle cases where OGS runs but finds no data
+      const errorMessage = result.error ? `OGS error: ${result.error}` : 'Could not fetch metadata from the URL.';
+      return NextResponse.json(
+        { error: 'Failed to fetch metadata', details: errorMessage },
+        { status: 500 }
+      );
+    }
+
     const imageUrl = Array.isArray(result.ogImage) ? result.ogImage[0]?.url : result.ogImage?.url;
 
     return NextResponse.json({
@@ -20,9 +29,11 @@ export async function GET(req: NextRequest) {
       image: imageUrl || '',
     });
   } catch (error: any) {
-    console.error('OGS Error:', error);
+    // Safely handle any kind of unexpected error during the process
+    console.error('OGS Critical Error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
     return NextResponse.json(
-      { error: 'Failed to fetch metadata', details: error.result?.error || error.message },
+      { error: 'Failed to process request', details: errorMessage },
       { status: 500 }
     );
   }
