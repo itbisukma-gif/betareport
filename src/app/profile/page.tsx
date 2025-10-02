@@ -130,7 +130,7 @@ export default function ProfilePage() {
                     Grafik ini menunjukkan total penayangan konten Anda selama seminggu terakhir.
                 </DialogDescription>
                 </DialogHeader>
-                <div className="w-full h-[250px] pt-4">
+                <div className="w-full h-[200px] pt-4 pl-6">
                      <ChartContainer config={chartConfig} className="w-full h-full">
                         <LineChart
                             accessibilityLayer
@@ -138,7 +138,7 @@ export default function ProfilePage() {
                             margin={{
                                 top: 5,
                                 right: 10,
-                                left: -20,
+                                left: 0,
                                 bottom: 5,
                             }}
                         >
@@ -151,6 +151,7 @@ export default function ProfilePage() {
                                 tick={{ fontSize: 12 }}
                             />
                              <YAxis
+                                width={30}
                                 tickFormatter={(value) => `${value / 1000}K`}
                                 tickLine={false}
                                 axisLine={false}
@@ -220,4 +221,5 @@ export default function ProfilePage() {
         </div>
     </div>
   );
-}
+
+    
