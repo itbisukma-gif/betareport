@@ -217,8 +217,16 @@ export default function PengajuanPage() {
                             Content Reference
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="p-0 border-0 max-w-lg w-[calc(100%-2rem)] bg-transparent shadow-none">
-                        <VideoPlayer src="/reference.mp4" />
+                    <DialogContent className="p-0 border-0 max-w-lg w-[calc(100%-2rem)]">
+                         <DialogHeader className="p-6 pb-2">
+                          <DialogTitle>Video Referensi</DialogTitle>
+                          <DialogDescription>
+                            Gunakan video ini sebagai referensi untuk konten Anda.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="px-6 pb-6">
+                          <VideoPlayer src="/reference.mp4" />
+                        </div>
                     </DialogContent>
                 </Dialog>
                 
