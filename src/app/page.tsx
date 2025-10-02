@@ -1,6 +1,5 @@
 'use client';
 import * as React from 'react';
-import { useSearchParams } from 'next/navigation';
 import { HomePageClient } from '@/components/HomePageClient';
 
 // Wrap the client component in a Suspense boundary
