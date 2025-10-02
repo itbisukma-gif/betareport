@@ -1,9 +1,10 @@
+
 'use client';
 
 import * as React from 'react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import useEmblaCarousel, { type EmblaCarouselType } from 'embla-carousel-react';
+import useEmblaCarousel, { type UseEmblaCarouselType } from 'embla-carousel-react';
 
 type Tab = {
   id: string;
@@ -53,7 +54,7 @@ export const AnimatedTabs = ({
   React.useEffect(() => {
     if (!emblaApi) return;
 
-    const onSelect = (emblaApi: EmblaCarouselType) => {
+    const onSelect = (emblaApi: UseEmblaCarouselType) => {
       const newActiveTab = tabs[emblaApi.selectedScrollSnap()].id;
       setActiveTab(newActiveTab);
       onTabChange?.(newActiveTab);
@@ -118,3 +119,4 @@ export const AnimatedTabsContent = ({
   if (activeTab !== value) return null; // 🚀 hanya render kalau tab aktif
   return <>{children}</>;
 };
+    

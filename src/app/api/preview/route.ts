@@ -23,7 +23,15 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    const imageUrl = Array.isArray(result.ogImage) ? result.ogImage[0]?.url : result.ogImage?.url;
+    let imageUrl: string | undefined;
+    if (Array.isArray(result.ogImage)) {
+      if (result.ogImage[0]) {
+        imageUrl = result.ogImage[0].url;
+      }
+    } else if (result.ogImage) {
+      imageUrl = result.ogImage.url;
+    }
+
 
     return NextResponse.json({
       caption: result.ogTitle || '',
