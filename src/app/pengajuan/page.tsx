@@ -13,6 +13,8 @@ import { useToast } from '@/hooks/use-toast';
 import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw, PlayCircle, Download, CircleAlert } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
+import { formatDistanceToNow } from 'date-fns';
+import { id } from 'date-fns/locale';
 
 // Mock data for submission history
 const initialSubmissionHistory = [
@@ -22,7 +24,7 @@ const initialSubmissionHistory = [
     caption: 'Ini dia video buat dance challenge terbaru!',
     status: 'Disetujui',
     revisionNotes: '',
-    date: '2 hari yang lalu',
+    date: new Date(new Date().setDate(new Date().getDate() - 2)),
     screenshotUrl: null,
   },
   {
@@ -31,7 +33,7 @@ const initialSubmissionHistory = [
     caption: 'Keseruan di balik layar dapur MBG.',
     status: 'Ditolak',
     revisionNotes: 'Kualitas video terlalu gelap di beberapa bagian. Coba ambil ulang dengan pencahayaan lebih baik. Hindari merekam area tempat sampah.',
-    date: '4 hari yang lalu',
+    date: new Date(new Date().setDate(new Date().getDate() - 4)),
     screenshotUrl: 'https://picsum.photos/seed/revision/400/225',
   },
   {
@@ -40,7 +42,7 @@ const initialSubmissionHistory = [
     caption: 'Teaser resep baru yang akan datang!',
     status: 'Menunggu Tinjauan',
     revisionNotes: '',
-    date: '1 jam yang lalu',
+    date: new Date(new Date().setHours(new Date().getHours() - 1)),
     screenshotUrl: null,
   },
 ];
@@ -160,7 +162,7 @@ export default function PengajuanPage() {
                     fileName: selectedFile.name,
                     caption: caption,
                     status: 'Menunggu Tinjauan',
-                    date: 'Baru saja',
+                    date: new Date(),
                     revisionNotes: '', // Clear old revision notes
                     screenshotUrl: null,
                   } 
@@ -178,7 +180,7 @@ export default function PengajuanPage() {
             fileName: selectedFile.name,
             caption: caption,
             status: 'Menunggu Tinjauan',
-            date: 'Baru saja',
+            date: new Date(),
             revisionNotes: '',
             screenshotUrl: null,
         };
@@ -192,7 +194,7 @@ export default function PengajuanPage() {
     resetForm();
   };
 
-  const sortedHistory = [...historyItems].sort((a, b) => new Date(b.date) as any - (new Date(a.date) as any));
+  const sortedHistory = [...historyItems].sort((a, b) => b.date.getTime() - a.date.getTime());
 
 
   return (
@@ -284,13 +286,13 @@ export default function PengajuanPage() {
           <CardDescription>Lihat status konten yang pernah Anda ajukan.</CardDescription>
         </CardHeader>
         <CardContent>
-            {historyItems.length === 0 ? (
+            {sortedHistory.length === 0 ? (
                 <div className="text-center text-muted-foreground py-8">
                     Belum ada riwayat pengajuan.
                 </div>
             ) : (
                 <Accordion type="single" collapsible className="w-full">
-                    {historyItems.map((item) => (
+                    {sortedHistory.map((item) => (
                         <AccordionItem value={`item-${item.id}`} key={item.id} className="border-b-0">
                              <AccordionTrigger className="p-4 rounded-lg hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50 data-[state=open]:rounded-b-none">
                                 <div className="flex flex-col items-start text-left w-full">
@@ -298,7 +300,9 @@ export default function PengajuanPage() {
                                         <span className="font-semibold text-sm break-all pr-4">{item.fileName}</span>
                                         <StatusBadge status={item.status} />
                                     </div>
-                                    <span className="text-xs text-muted-foreground mt-1">{item.date}</span>
+                                    <span className="text-xs text-muted-foreground mt-1 font-normal">
+                                        {formatDistanceToNow(item.date, { addSuffix: true, locale: id })}
+                                    </span>
                                 </div>
                             </AccordionTrigger>
                             <AccordionContent className="p-4 pt-0 bg-muted/50 rounded-b-lg">
