@@ -37,7 +37,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { initialDailyPostStatus, weeklySchedule, type DailyPost } from '@/lib/mock-data.tsx';
+import { initialDailyPostStatus, weeklySchedule, type DailyPost } from '@/lib/mock-data';
 
 export default function HomePageClient() {
   const searchParams = useSearchParams();
@@ -580,7 +580,7 @@ export default function HomePageClient() {
                 <VideoPostDialog
                   appName="Instagram"
                   uploadUrl={
-                    dailyPostStatus.find((p) => p.name === 'Instagram')
+                    dailyPostSstts.find((p) => p.name === 'Instagram')
                       ?.uploadUrl ?? ''
                   }
                   platformId="instagram"
