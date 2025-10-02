@@ -123,7 +123,7 @@ export default function ProfilePage() {
                     </CardContent>
                 </Card>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-2xl">
+            <DialogContent>
                 <DialogHeader>
                 <DialogTitle>Analitik Konten Mingguan</DialogTitle>
                 <DialogDescription>
@@ -138,7 +138,7 @@ export default function ProfilePage() {
                             margin={{
                                 top: 5,
                                 right: 10,
-                                left: -10,
+                                left: -20,
                                 bottom: 5,
                             }}
                         >
@@ -222,3 +222,4 @@ export default function ProfilePage() {
   );
 }
 
+    
