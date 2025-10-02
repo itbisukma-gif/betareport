@@ -208,6 +208,25 @@ export default function PengajuanPage() {
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <div className="flex flex-col gap-2">
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="outline" className='w-full justify-start'>
+                            <PlayCircle className="mr-2" />
+                            Content Reference
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="p-0 border-0 max-w-4xl bg-black/80 backdrop-blur-sm">
+                        <video src="/reference.mp4" controls autoPlay loop className="w-full h-auto rounded-lg" />
+                    </DialogContent>
+                </Dialog>
+                
+                <Button variant="outline" className='w-full justify-start'>
+                    <Download className="mr-2" />
+                    Assets Download
+                </Button>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="video-file" className="sr-only">Upload File Video</Label>
               {selectedFile ? (
@@ -240,14 +259,6 @@ export default function PengajuanPage() {
             </div>
             
             <div className='flex flex-col gap-2'>
-                <Button variant="outline" className='w-full justify-start'>
-                    <PlayCircle className="mr-2" />
-                    Content Reference
-                </Button>
-                <Button variant="outline" className='w-full justify-start'>
-                    <Download className="mr-2" />
-                    Assets Download
-                </Button>
                  <ContentGuidelinesDialog asChild>
                     <Button variant="link" className="text-muted-foreground font-normal text-xs py-1 h-auto justify-center">
                         <CircleAlert className="mr-2 h-4 w-4" />
