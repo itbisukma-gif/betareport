@@ -2,8 +2,11 @@
 'use client';
 import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { User } from 'lucide-react';
+import { LogOut, User, Settings } from 'lucide-react';
 import Link from 'next/link';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from './ui/button';
+import { Separator } from './ui/separator';
 
 export function Header() {
   const pathname = usePathname();
@@ -36,17 +39,47 @@ export function Header() {
           <h1 className="text-xl font-bold font-headline">{title}</h1>
         )}
       </div>
-      <Link href="/profile" className="flex items-center gap-3 min-w-0">
-        <div className="text-right min-w-0">
-            <p className="text-sm font-semibold truncate">Nael Sianipar</p>
-            <p className="text-xs text-muted-foreground truncate">SPPG Yayasan Bisukma Bangun Bangsa</p>
-        </div>
-        <Avatar className="h-9 w-9 flex-shrink-0">
-            <AvatarFallback>
-            <User className="h-5 w-5 text-muted-foreground" />
-            </AvatarFallback>
-        </Avatar>
-      </Link>
+      <Popover>
+        <PopoverTrigger asChild>
+            <div className="flex items-center gap-3 min-w-0 cursor-pointer">
+                <div className="text-right min-w-0">
+                    <p className="text-sm font-semibold truncate">Nael Sianipar</p>
+                    <p className="text-xs text-muted-foreground truncate">SPPG Yayasan Bisukma Bangun Bangsa</p>
+                </div>
+                <Avatar className="h-9 w-9 flex-shrink-0">
+                    <AvatarFallback>
+                    <User className="h-5 w-5 text-muted-foreground" />
+                    </AvatarFallback>
+                </Avatar>
+            </div>
+        </PopoverTrigger>
+        <PopoverContent className="w-64 mr-4 p-2">
+            <div className="flex items-center gap-3 p-2">
+                 <Avatar className="h-9 w-9 flex-shrink-0">
+                    <AvatarFallback>
+                    <User className="h-5 w-5 text-muted-foreground" />
+                    </AvatarFallback>
+                </Avatar>
+                <div className="min-w-0">
+                    <p className="text-sm font-semibold truncate">Nael Sianipar</p>
+                    <p className="text-xs text-muted-foreground truncate">SPPG Yayasan Bisukma Bangun Bangsa</p>
+                </div>
+            </div>
+            <Separator className="my-2" />
+            <div className="flex flex-col gap-1">
+                <Button variant="ghost" className="w-full justify-start text-sm font-normal" asChild>
+                    <Link href="/profile">
+                        <Settings className="mr-2 h-4 w-4" />
+                        Pengaturan Akun
+                    </Link>
+                </Button>
+                <Button variant="ghost" className="w-full justify-start text-sm font-normal text-destructive hover:text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Keluar
+                </Button>
+            </div>
+        </PopoverContent>
+      </Popover>
     </header>
   );
 }
