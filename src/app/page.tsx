@@ -1,3 +1,4 @@
+
 import * as React from 'react';
 import { HomePageClient } from '@/components/HomePageClient';
 import type { Metadata } from 'next';
