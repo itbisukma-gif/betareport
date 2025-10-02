@@ -5,10 +5,12 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
-import { BarChart3, Eye, Handshake, KeyRound, Link, LogOut, Mail, PenLine, Phone, User, Video } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { BarChart3, Eye, Handshake, KeyRound, Link as LinkIcon, LogOut, Mail, PenLine, Phone, User, Video } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
+import { type ChartConfig } from "@/components/ui/chart"
 
 const analyticsData = [
     {
@@ -52,6 +54,23 @@ const socialAccounts = [
     },
 ];
 
+const chartData = [
+  { day: 'Sen', views: 25000 },
+  { day: 'Sel', views: 32000 },
+  { day: 'Rab', views: 28000 },
+  { day: 'Kam', views: 45000 },
+  { day: 'Jum', views: 41000 },
+  { day: 'Sab', views: 68000 },
+  { day: 'Min', views: 62000 },
+]
+
+const chartConfig = {
+  views: {
+    label: "Penayangan",
+    color: "hsl(var(--primary))",
+  },
+} satisfies ChartConfig
+
 const ProfileItem = ({ icon, label, value, type = 'text' }: { icon: React.ReactNode, label: string, value: string, type?: string }) => (
     <div className="flex flex-col gap-2">
         <Label htmlFor={label.toLowerCase()} className="text-muted-foreground flex items-center gap-2">
@@ -84,23 +103,76 @@ export default function ProfilePage() {
             </div>
         </div>
 
-        <Card>
-            <CardHeader>
-                <CardTitle className="text-base font-medium flex items-center gap-2">
-                    <BarChart3 className="h-4 w-4" />
-                    Analitik Konten
-                </CardTitle>
-            </CardHeader>
-            <CardContent className="grid grid-cols-3 gap-4 text-center">
-                {analyticsData.map((item) => (
-                    <div key={item.title} className="p-3 bg-muted/50 rounded-lg flex flex-col items-center justify-center gap-1">
-                        {item.icon}
-                        <p className="text-xl font-bold">{item.value}</p>
-                        <p className="text-xs text-muted-foreground">{item.title}</p>
-                    </div>
-                ))}
-            </CardContent>
-        </Card>
+        <Dialog>
+            <DialogTrigger asChild>
+                 <Card className="cursor-pointer hover:border-primary/50 transition-colors">
+                    <CardHeader>
+                        <CardTitle className="text-base font-medium flex items-center gap-2">
+                            <BarChart3 className="h-4 w-4" />
+                            Analitik Konten
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="grid grid-cols-3 gap-4 text-center">
+                        {analyticsData.map((item) => (
+                            <div key={item.title} className="p-3 bg-muted/50 rounded-lg flex flex-col items-center justify-center gap-1">
+                                {item.icon}
+                                <p className="text-xl font-bold">{item.value}</p>
+                                <p className="text-xs text-muted-foreground">{item.title}</p>
+                            </div>
+                        ))}
+                    </CardContent>
+                </Card>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-2xl">
+                <DialogHeader>
+                <DialogTitle>Analitik Konten Mingguan</DialogTitle>
+                <DialogDescription>
+                    Grafik ini menunjukkan total penayangan konten Anda selama seminggu terakhir.
+                </DialogDescription>
+                </DialogHeader>
+                <div className="w-full h-[250px] pt-4">
+                     <ChartContainer config={chartConfig} className="w-full h-full">
+                        <LineChart
+                            accessibilityLayer
+                            data={chartData}
+                            margin={{
+                                top: 5,
+                                right: 10,
+                                left: 10,
+                                bottom: 5,
+                            }}
+                        >
+                            <CartesianGrid vertical={false} />
+                            <XAxis
+                                dataKey="day"
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={8}
+                            />
+                             <YAxis
+                                tickFormatter={(value) => `${value / 1000}K`}
+                                tickLine={false}
+                                axisLine={false}
+                                tickMargin={8}
+                                width={35}
+                            />
+                            <ChartTooltip
+                                cursor={false}
+                                content={<ChartTooltipContent indicator="line" />}
+                            />
+                            <Line
+                                dataKey="views"
+                                type="monotone"
+                                stroke="hsl(var(--primary))"
+                                strokeWidth={2}
+                                dot={false}
+                            />
+                        </LineChart>
+                    </ChartContainer>
+                </div>
+            </DialogContent>
+        </Dialog>
+
 
         <Card>
             <CardHeader>
@@ -131,7 +203,7 @@ export default function ProfilePage() {
                             </div>
                         </div>
                         <Button variant={account.connected ? 'secondary' : 'destructive'} size="sm">
-                             <Link className="h-4 w-4 mr-2" />
+                             <LinkIcon className="h-4 w-4 mr-2" />
                             {account.connected ? 'Tautkan Ulang' : 'Tautkan'}
                         </Button>
                     </div>
@@ -148,3 +220,5 @@ export default function ProfilePage() {
     </div>
   );
 }
+
+    
