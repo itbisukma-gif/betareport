@@ -15,6 +15,7 @@ import Image from 'next/image';
 import * as React from 'react';
 import { formatDistanceToNow } from 'date-fns';
 import { id } from 'date-fns/locale';
+import { VideoPlayer } from '@/components/VideoPlayer';
 
 // Mock data for submission history
 const initialSubmissionHistory = [
@@ -216,8 +217,8 @@ export default function PengajuanPage() {
                             Content Reference
                         </Button>
                     </DialogTrigger>
-                    <DialogContent className="p-0 border-0 max-w-4xl bg-black/80 backdrop-blur-sm">
-                        <video src="/reference.mp4" controls autoPlay loop className="w-full h-auto rounded-lg" />
+                    <DialogContent className="p-0 border-0 max-w-lg w-[calc(100%-2rem)] bg-transparent shadow-none">
+                        <VideoPlayer src="/reference.mp4" />
                     </DialogContent>
                 </Dialog>
                 
@@ -381,5 +382,3 @@ export default function PengajuanPage() {
     </div>
   );
 }
-
-    
