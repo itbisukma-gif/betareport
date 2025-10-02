@@ -37,7 +37,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 
-function HomePage() {
+function HomePageClient() {
   const searchParams = useSearchParams();
   const initialTabId = searchParams.get('tab') || 'overview';
 
@@ -723,7 +723,7 @@ function HomePage() {
 export default function Home() {
   return (
     <React.Suspense fallback={<div>Loading...</div>}>
-      <HomePage />
+      <HomePageClient />
     </React.Suspense>
   );
 }
