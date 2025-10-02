@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { User } from 'lucide-react';
+import Link from 'next/link';
 
 export function Header() {
   const pathname = usePathname();
@@ -35,11 +36,17 @@ export function Header() {
           <h1 className="text-xl font-bold font-headline">{title}</h1>
         )}
       </div>
-      <Avatar className="h-8 w-8">
-        <AvatarFallback>
-          <User className="h-5 w-5 text-muted-foreground" />
-        </AvatarFallback>
-      </Avatar>
+      <Link href="/profile" className="flex items-center gap-3">
+        <div className="text-right">
+            <p className="text-sm font-semibold">Nael Sianipar</p>
+            <p className="text-xs text-muted-foreground">SPPG</p>
+        </div>
+        <Avatar className="h-9 w-9">
+            <AvatarFallback>
+            <User className="h-5 w-5 text-muted-foreground" />
+            </AvatarFallback>
+        </Avatar>
+      </Link>
     </header>
   );
 }
