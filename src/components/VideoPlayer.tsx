@@ -15,9 +15,20 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
-  const [isMuted, setIsMuted] = React.useState(false);
+  const [isMuted, setIsMuted] = React.useState(true);
   const [showControls, setShowControls] = React.useState(true);
   const controlsTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  React.useEffect(() => {
+    const video = videoRef.current;
+    if (video) {
+        video.play().catch(error => {
+            console.error("Autoplay was prevented: ", error);
+            setIsPlaying(false);
+        });
+    }
+  }, []);
+
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -68,21 +79,15 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
     return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
   };
 
-  React.useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
-      video.muted = false;
-      setIsMuted(false);
-    }
-  }, []);
-
   const handlePointerMove = () => {
     setShowControls(true);
     if (controlsTimeoutRef.current) {
       clearTimeout(controlsTimeoutRef.current);
     }
     controlsTimeoutRef.current = setTimeout(() => {
-      setShowControls(false);
+      if (isPlaying) {
+        setShowControls(false);
+      }
     }, 2000);
   };
 
@@ -102,15 +107,15 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
         onEnded={() => setIsPlaying(false)}
         className="w-full h-full object-contain"
         playsInline
+        autoPlay
+        muted={isMuted}
       />
-      <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-
       <div 
         className={cn(
-            "absolute bottom-0 left-0 right-0 p-4 transition-opacity",
-            showControls || !isPlaying ? "opacity-100" : "opacity-0"
+            "absolute bottom-0 left-0 right-0 p-4 transition-opacity duration-300",
+            showControls ? "opacity-100" : "opacity-0"
         )}>
-         <div className="flex items-center gap-3">
+         <div className="flex items-center gap-3 bg-black/30 backdrop-blur-sm p-2 rounded-lg">
             <span className="text-white text-xs font-mono">{formatTime(videoRef.current?.currentTime ?? 0)}</span>
             <Slider
                 value={[progress]}
