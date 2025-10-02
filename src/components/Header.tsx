@@ -36,12 +36,12 @@ export function Header() {
           <h1 className="text-xl font-bold font-headline">{title}</h1>
         )}
       </div>
-      <Link href="/profile" className="flex items-center gap-3">
-        <div className="text-right">
-            <p className="text-sm font-semibold">Nael Sianipar</p>
-            <p className="text-xs text-muted-foreground">SPPG</p>
+      <Link href="/profile" className="flex items-center gap-3 min-w-0">
+        <div className="text-right min-w-0">
+            <p className="text-sm font-semibold truncate">Nael Sianipar</p>
+            <p className="text-xs text-muted-foreground truncate">SPPG Yayasan Bisukma Bangun Bangsa</p>
         </div>
-        <Avatar className="h-9 w-9">
+        <Avatar className="h-9 w-9 flex-shrink-0">
             <AvatarFallback>
             <User className="h-5 w-5 text-muted-foreground" />
             </AvatarFallback>
