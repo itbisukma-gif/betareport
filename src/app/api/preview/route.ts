@@ -14,7 +14,6 @@ export async function GET(req: NextRequest) {
     const { result } = await ogs({ url });
 
     if (result.success === false || !result.ogTitle) {
-      // Handle cases where OGS runs but finds no data
       const errorMessage = result.error ? `OGS error: ${result.error}` : 'Could not fetch metadata from the URL.';
       return NextResponse.json(
         { error: 'Failed to fetch metadata', details: errorMessage },
@@ -29,7 +28,6 @@ export async function GET(req: NextRequest) {
       image: imageUrl || '',
     });
   } catch (error: any) {
-    // Safely handle any kind of unexpected error during the process
     console.error('OGS Critical Error:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred.';
     return NextResponse.json(
