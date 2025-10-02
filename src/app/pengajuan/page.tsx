@@ -347,6 +347,8 @@ export default function PengajuanPage() {
                                                                 alt="Lampiran Revisi"
                                                                 width={400}
                                                                 height={225}
+                                                                placeholder="blur"
+                                                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                                                                 className="rounded-md border-2 border-white/50 w-full h-auto cursor-pointer"
                                                                 data-ai-hint="revision screenshot"
                                                             />
@@ -363,6 +365,8 @@ export default function PengajuanPage() {
                                                                 alt="Lampiran Revisi diperbesar"
                                                                 width={1200}
                                                                 height={675}
+                                                                placeholder="blur"
+                                                                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="
                                                                 className="rounded-b-lg w-full h-auto"
                                                                 data-ai-hint="revision screenshot"
                                                             />
