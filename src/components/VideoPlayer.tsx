@@ -15,7 +15,7 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
   const [duration, setDuration] = React.useState(0);
-  const [isMuted, setIsMuted] = React.useState(true);
+  const [isMuted, setIsMuted] = React.useState(false);
   const [showControls, setShowControls] = React.useState(true);
   const controlsTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
 
@@ -71,8 +71,8 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
   React.useEffect(() => {
     const video = videoRef.current;
     if (video) {
-      video.muted = true;
-      setIsMuted(true);
+      video.muted = false;
+      setIsMuted(false);
     }
   }, []);
 
