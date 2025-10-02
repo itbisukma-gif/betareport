@@ -22,6 +22,9 @@ import {
   Video,
   Upload,
   CalendarDays,
+  PlayCircle,
+  Download,
+  CircleAlert,
 } from 'lucide-react';
 import Image from 'next/image';
 import {
@@ -36,6 +39,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
+import { VideoPlayer } from '@/components/VideoPlayer';
 
 function HomePageClient() {
   const searchParams = useSearchParams();
