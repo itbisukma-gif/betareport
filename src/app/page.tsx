@@ -30,6 +30,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useToast } from '@/hooks/use-toast'
 
+
 function PageContent() {
   const searchParams = useSearchParams();
   const initialTabId = searchParams.get('tab') || "overview";
@@ -100,7 +101,7 @@ function PageContent() {
 
   const handleReportPost = async (platformId: string, postUrl: string) => {
     try {
-      const res = await fetch(`/api/preview?url=${encodeURIComponent(postUrl)}`);
+      const res = await fetch(`/api/preview?url=${'${'}encodeURIComponent(postUrl)}`);
       if (!res.ok) {
         const errorData = await res.json();
         throw new Error(errorData.details || 'Failed to fetch preview');
@@ -115,7 +116,7 @@ function PageContent() {
             post: {
               ...(p.post ?? {}),
               caption: details.caption || p.post?.caption || 'Konten berhasil diunggah!',
-              thumbnail: details.image || `https://picsum.photos/seed/${Math.random()}/400/600`,
+              thumbnail: details.image || `https://picsum.photos/seed/${'${'}Math.random()}/400/600`,
               imageHint: 'social media post',
               likes: p.post?.likes || "0",
               views: p.post?.views || "0",
@@ -140,7 +141,7 @@ function PageContent() {
         prevStatus.map(p =>
           p.id === platformId ? { ...p, posted: true, post: p.post || {
               caption: 'Konten berhasil diunggah!',
-              thumbnail: `https://picsum.photos/seed/${Math.random()}/400/600`,
+              thumbnail: `https://picsum.photos/seed/${'${'}Math.random()}/400/600`,
               imageHint: 'social media post',
               likes: "0",
               views: "0",
@@ -373,7 +374,7 @@ function PageContent() {
                           <div className="flex items-start gap-4">
                           <Image 
                             src={platform.post.thumbnail} 
-                            alt={`Thumbnail for ${platform.name} post`}
+                            alt={`Thumbnail for ${'${'}platform.name} post`}
                             width={100}
                             height={150}
                             data-ai-hint={platform.post.imageHint}
@@ -557,16 +558,16 @@ function PageContent() {
   );
 }
 
-
 export default function Home() {
-  return (
-    <React.Suspense fallback={<div>Loading...</div>}>
-      <PageContent />
-    </React.Suspense>
-  )
+    return (
+        <React.Suspense fallback={<div>Loading...</div>}>
+            <PageContent />
+        </React.Suspense>
+    )
 }
     
     
     
 
     
+
