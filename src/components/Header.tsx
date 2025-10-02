@@ -28,20 +28,20 @@ export function Header() {
   const title = getTitle();
 
   return (
-    <header className="sticky top-0 z-50 flex items-center justify-between p-4 h-20 bg-background border-b">
-      <div className="flex items-center">
+    <header className="sticky top-0 z-50 flex items-center justify-between p-4 h-20 bg-background border-b gap-4">
+      <div className="flex-shrink-0">
         {pathname === '/' ? (
           <div className="flex items-baseline">
             <span className="text-xl font-bold">BETA</span>
             <span className="text-base font-light">report</span>
           </div>
         ) : (
-          <h1 className="text-xl font-bold font-headline">{title}</h1>
+          <h1 className="text-xl font-bold font-headline truncate">{title}</h1>
         )}
       </div>
       <Popover>
         <PopoverTrigger asChild>
-            <div className="flex items-center gap-3 cursor-pointer">
+            <div className="flex items-center gap-3 cursor-pointer flex-shrink min-w-0">
                 <div className="text-right min-w-0">
                     <p className="text-sm font-semibold truncate">Nael Sianipar</p>
                     <p className="text-xs text-muted-foreground truncate">SPPG Yayasan Bisukma Bangun Bangsa</p>
