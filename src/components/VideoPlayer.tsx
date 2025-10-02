@@ -88,7 +88,7 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
 
   return (
     <div
-      className={cn('relative w-full aspect-video overflow-hidden rounded-lg group bg-black', className)}
+      className={cn('relative w-full overflow-hidden rounded-lg group bg-black', className)}
       onClick={togglePlay}
       onPointerMove={handlePointerMove}
     >
@@ -104,22 +104,6 @@ export const VideoPlayer = ({ src, className }: VideoPlayerProps) => {
         playsInline
       />
       <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-      
-      <div 
-        className={cn(
-            "absolute inset-0 flex items-center justify-center transition-opacity",
-            showControls || !isPlaying ? "opacity-100" : "opacity-0"
-        )}>
-        <button
-          className="bg-black/50 backdrop-blur-sm text-white p-4 rounded-full"
-          onClick={(e) => {
-            e.stopPropagation();
-            togglePlay();
-          }}
-        >
-          {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
-        </button>
-      </div>
 
       <div 
         className={cn(
