@@ -54,8 +54,8 @@ export const AnimatedTabs = ({
   React.useEffect(() => {
     if (!emblaApi) return;
 
-    const onSelect = (emblaApi: UseEmblaCarouselType) => {
-      const newActiveTab = tabs[emblaApi.selectedScrollSnap()].id;
+    const onSelect = () => {
+      const newActiveTab = tabs[emblaApi.selectedSnap()].id;
       setActiveTab(newActiveTab);
       onTabChange?.(newActiveTab);
     };
@@ -119,4 +119,3 @@ export const AnimatedTabsContent = ({
   if (activeTab !== value) return null; // 🚀 hanya render kalau tab aktif
   return <>{children}</>;
 };
-    
