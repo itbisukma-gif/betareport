@@ -580,7 +580,7 @@ export default function HomePageClient() {
                 <VideoPostDialog
                   appName="Instagram"
                   uploadUrl={
-                    dailyPostSstts.find((p) => p.name === 'Instagram')
+                    dailyPostStatus.find((p) => p.name === 'Instagram')
                       ?.uploadUrl ?? ''
                   }
                   platformId="instagram"
