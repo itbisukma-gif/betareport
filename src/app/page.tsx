@@ -310,7 +310,7 @@ function PageContent() {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6">
       <AnimatedTabs tabs={tabs} initialTab={initialTabId} className="w-full">
         <AnimatedTabsContent value="overview">
           <div className="space-y-6">

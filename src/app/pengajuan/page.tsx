@@ -198,7 +198,7 @@ export default function PengajuanPage() {
 
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="p-4 sm:p-6 space-y-6">
       <Card ref={formCardRef}>
         <CardHeader>
           <CardTitle>{resubmissionId ? 'Kirim Ulang Konten' : 'Ajukan Konten Baru'}</CardTitle>
@@ -241,7 +241,7 @@ export default function PengajuanPage() {
                   </Button>
                 </div>
               ) : (
-                <Label id="video-file-label" htmlFor="video-file" tabIndex={0} className="relative block w-full h-48 border-2 border-dashed rounded-lg text-center flex flex-col justify-center items-center cursor-pointer hover:border-primary hover:bg-muted/50 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-ring transition-colors">
+                <Label id="video-file-label" tabIndex={0} htmlFor="video-file" className="relative block w-full h-48 border-2 border-dashed rounded-lg text-center flex flex-col justify-center items-center cursor-pointer hover:border-primary hover:bg-muted/50 focus-within:border-primary focus-within:outline-none focus-within:ring-2 focus-within:ring-ring transition-colors">
                   <div className="flex flex-col items-center text-muted-foreground">
                     <FileUp className="h-8 w-8 mb-2" />
                     <span className="font-semibold">Seret & lepas file atau klik untuk unggah</span>
