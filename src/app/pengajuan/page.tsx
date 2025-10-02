@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -10,7 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw } from 'lucide-react';
+import { FileUp, History, MessageSquare, CheckCircle2, XCircle, Clock, Video, X, RefreshCw, PlayCircle } from 'lucide-react';
 import Image from 'next/image';
 import * as React from 'react';
 
@@ -127,7 +126,7 @@ export default function PengajuanPage() {
     } else {
         // This is a new submission
         const newSubmission = {
-            id: Math.max(...historyItems.map(item => item.id)) + 1,
+            id: Math.max(...historyItems.map(item => item.id), 0) + 1,
             fileName: selectedFile.name,
             caption: caption,
             status: 'Menunggu Tinjauan',
@@ -159,6 +158,12 @@ export default function PengajuanPage() {
         </CardHeader>
         <CardContent>
           <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+             <div className="flex justify-end">
+                <Button variant="ghost">
+                    <PlayCircle className="mr-2 h-4 w-4" />
+                    Content Reference
+                </Button>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="video-file" className="sr-only">Upload File Video</Label>
               {selectedFile ? (
@@ -302,5 +307,3 @@ export default function PengajuanPage() {
     </div>
   );
 }
-
-    
